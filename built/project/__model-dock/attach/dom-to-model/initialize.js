@@ -1,0 +1,1 @@
+define(["require","exports","module","lodash"],function(e,t,n){var r=e("lodash");n.exports=function(){this.$els={},r.each(this.map,r.bind(function(e,t){this.bindInput(e,t)},this))}});

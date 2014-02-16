@@ -1,0 +1,1 @@
+define(["require","exports","module","lodash","./update"],function(e,t,n){var r=e("lodash"),i=e("./update"),s=n.exports=function(t){var n=r.bind(i,this);t.on("change",n),n(t)}});

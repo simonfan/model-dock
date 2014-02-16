@@ -1,0 +1,1 @@
+define(["require","exports","module","jquery","./read-dom-value"],function(e,t,n){var r=e("jquery"),i=e("./read-dom-value");n.exports=function(t){var n=r(t.target),s=n.data("_dock_-bound-attribute");if(s){var o=n.data("_dock_-selector"),u=this.$els[o],a=i(u),f=this.parsers[s];a=f?f.call(this,a):a,this.model.set(s,a)}}});

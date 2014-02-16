@@ -1,0 +1,76 @@
+/**
+ * @module archetypo
+ * @submodule view.dock.attach
+ */
+
+/* jshint ignore:start */
+if (typeof define !== 'function') { var define = require('amdefine')(module) }
+/* jshint ignore:end */
+
+define(function (require, exports, module) {
+
+	var _ = require('lodash'),
+		attachModelDom = require('./model-to-dom/attach'),
+		attachDomModel = require('./dom-to-model/attach');
+
+	exports.stringifiers = {};
+
+	/**
+	 * Hash for the parsers. Every parser function is called
+	 * within the's context and takes the value read
+	 * from the DOM as arugment.
+	 *
+	 * @property parsers
+	 * @type Object
+	 */
+	exports.parsers = {};
+
+	/**
+	 * String of tagnames that identify input.
+	 *
+	 * @property inputSelector
+	 * @type String
+	 */
+	exports.inputSelector = 'input,textarea';
+
+
+	exports.bindInput = require('./dom-to-model/bind-input');
+
+
+	/**
+	 *
+	 *
+	 * @method attach
+	 * @param model {backbone.model Object}
+	 */
+	exports.attach = function attach(model) {
+
+		this.detach();
+
+		// set model
+		this.model = model;
+
+		// attach model to dom
+		attachModelDom.apply(this, arguments);
+
+		// attach dom to model
+		attachDomModel.apply(this, arguments);
+	};
+
+
+	/**
+	 *
+	 *
+	 * @method detach
+	 */
+	exports.detach = function detach() {
+
+		if (this.model) {
+			// stop listening to old model.
+			this.model.off('change', this._updateView);
+
+			// set this model to another value
+			this.model = void(0);
+		}
+	};
+});

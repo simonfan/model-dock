@@ -1,0 +1,1 @@
+define(["require","exports","module","lodash","jquery"],function(e,t,n){var r=e("lodash"),i=e("jquery");n.exports=function(t,n){if(r.isArray(t))r.each(t,r.bind(function(e){this.bindInput(e,n)},this));else{var i=this.$els[t]=this.$el.find(t);i.length>0&&i.data("_dock_-bound-attribute",n).data("_dock_-selector",t)}}});
