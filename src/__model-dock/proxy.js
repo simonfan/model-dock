@@ -14,7 +14,7 @@ define(function (require, exports, module) {
 
 	var _ = require('lodash');
 
-	exports.invokeModelMethod = function invokeModelMethod(method, args) {
+	exports.proxyMethod = function proxyMethod(method, args) {
 		var model = this.model;
 
 		if (model) {
@@ -26,7 +26,7 @@ define(function (require, exports, module) {
 
 	_.each(methods, function (method) {
 		exports[method] = function () {
-			return this.invokeModelMethod(method, arguments);
+			return this.proxyMethod(method, arguments);
 		};
 	});
 });

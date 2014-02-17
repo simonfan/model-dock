@@ -8,6 +8,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "backbone.model",
         "backbone.view.model",
         "html-to-model",
+        "model-dock",
         "view.dock",
         "view.dock.attach"
     ],
@@ -36,6 +37,10 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "html-to-model",
             "name": "html-to-model"
+        },
+        {
+            "displayName": "model-dock",
+            "name": "model-dock"
         },
         {
             "displayName": "view.dock",

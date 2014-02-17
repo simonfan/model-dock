@@ -39,7 +39,10 @@ function(modelDock, should, Backbone, fruitTemplate) {
 			});
 
 			// instantiate the fruit view
-			var fruitDock = modelDock(this.$fruit, this.fruitMap);
+			var fruitDock = modelDock({
+				$el: this.$fruit,
+				map: this.fruitMap
+			});
 
 
 			// attach model
@@ -69,7 +72,10 @@ function(modelDock, should, Backbone, fruitTemplate) {
 			});
 
 			// instantiate the fruit view
-			var fruitDock = modelDock(this.$fruit, this.fruitMap);
+			var fruitDock = modelDock({
+				$el: this.$fruit,
+				map: this.fruitMap
+			});
 
 			// attach model
 			fruitDock.attach(fruitModel);
@@ -101,7 +107,10 @@ function(modelDock, should, Backbone, fruitTemplate) {
 				}
 			});
 
-			var fruitView = saleFruitDock(this.$fruit, this.fruitMap);
+			var fruitView = saleFruitDock({
+				$el: this.$fruit,
+				map: this.fruitMap
+			});
 
 			fruitView.attach(fruitModel)
 

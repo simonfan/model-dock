@@ -57,6 +57,8 @@
             
                 <li><a href="../modules/html-to-model.html">html-to-model</a></li>
             
+                <li><a href="../modules/model-dock.html">model-dock</a></li>
+            
                 <li><a href="../modules/view.dock.html">view.dock</a></li>
             
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
@@ -116,7 +118,7 @@ define(function (require, exports, module) {
 
 	var _ = require(&#x27;lodash&#x27;);
 
-	exports.invokeModelMethod = function invokeModelMethod(method, args) {
+	exports.proxyMethod = function proxyMethod(method, args) {
 		var model = this.model;
 
 		if (model) {
@@ -128,7 +130,7 @@ define(function (require, exports, module) {
 
 	_.each(methods, function (method) {
 		exports[method] = function () {
-			return this.invokeModelMethod(method, arguments);
+			return this.proxyMethod(method, arguments);
 		};
 	});
 });

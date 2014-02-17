@@ -133,8 +133,7 @@
             "submodules": {
                 "$el.dock.attach": 1,
                 "view.dock.attach": 1,
-                "view.dock": 1,
-                "$el.dock": 1
+                "view.dock": 1
             },
             "classes": {},
             "fors": {},
@@ -177,6 +176,15 @@
             "line": 1,
             "description": "The dock is the object that links together views and models."
         },
+        "model-dock": {
+            "name": "model-dock",
+            "submodules": {
+                "$el.dock": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "$el.dock": {
             "name": "$el.dock",
             "submodules": {},
@@ -184,10 +192,10 @@
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
-            "module": "archetypo",
+            "module": "model-dock",
             "namespace": "",
             "file": "src/index.js",
-            "line": 1,
+            "line": 5,
             "description": "The dock is the object that links together $els and models."
         }
     },
@@ -427,61 +435,56 @@
         },
         {
             "file": "src/index.js",
-            "line": 21,
+            "line": 25,
             "description": "The constructor for the dock object.",
             "itemtype": "method",
             "name": "dock",
             "is_constructor": 1,
             "params": [
                 {
+                    "name": "extensions",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
                     "name": "$el",
-                    "description": "\n    The $el that owns the dock object",
+                    "description": "\n        The $el that owns the dock object",
                     "type": "Object"
                 },
                 {
                     "name": "map",
-                    "description": "\n    Map that links selectors to attributes",
+                    "description": "\n        Map that links selectors to attributes",
                     "type": "Object"
                 },
                 {
                     "name": "model",
-                    "description": "\n    Optionally provide a model that will initially fill the $el.",
+                    "description": "\n        Optionally provide a model that will initially fill the $el.",
                     "type": "Object",
                     "optional": true
                 }
             ],
             "class": "",
-            "module": "archetypo",
+            "module": "model-dock",
             "submodule": "$el.dock"
         },
         {
             "file": "src/index.js",
-            "line": 34,
-            "description": "The $el that owns this dock object.",
-            "itemtype": "property",
-            "name": "$el",
-            "class": "",
-            "module": "archetypo",
-            "submodule": "$el.dock"
-        },
-        {
-            "file": "src/index.js",
-            "line": 48,
+            "line": 47,
             "description": "The model this dock object should listen to.",
             "itemtype": "property",
             "name": "model",
             "class": "",
-            "module": "archetypo",
+            "module": "model-dock",
             "submodule": "$el.dock"
         },
         {
             "file": "src/index.js",
-            "line": 55,
+            "line": 54,
             "description": "Map that identifies selectors for attribvutes.",
             "itemtype": "property",
             "name": "map",
             "class": "",
-            "module": "archetypo",
+            "module": "model-dock",
             "submodule": "$el.dock"
         }
     ],

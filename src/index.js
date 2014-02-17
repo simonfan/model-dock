@@ -1,7 +1,11 @@
+//     model-dock
+//     (c) simonfan
+//     model-dock is licensed under the MIT terms.
+
 /**
  * The dock is the object that links together $els and models.
  *
- * @module archetypo
+ * @module model-dock
  * @submodule $el.dock
  */
 
@@ -23,22 +27,17 @@ define(function (require, exports, module) {
 	 *
 	 * @method dock
 	 * @constructor
-	 * @param $el {Object}
-	 *     The $el that owns the dock object
-	 * @param map {Object}
-	 *     Map that links selectors to attributes
-	 * @param [model] {Object}
-	 *     Optionally provide a model that will initially fill the $el.
+	 * @param extensions {Object}
+	 *     @param $el {Object}
+	 *         The $el that owns the dock object
+	 *     @param map {Object}
+	 *         Map that links selectors to attributes
+	 *     @param [model] {Object}
+	 *         Optionally provide a model that will initially fill the $el.
 	 */
-	var dock = module.exports = subject(function modelDock($el, map, model) {
-		/**
-		 * The $el that owns this dock object.
-		 *
-		 * @property $el
-		 */
-		this.$el = $el || this.$el;
-		this.map = map || this.map;
-		this.model = model || this.model;
+	var dock = module.exports = subject(function modelDock(extensions) {
+
+		_.extend(this, extensions);
 
 		// initialize attach
 		initAttach.apply(this, arguments);
