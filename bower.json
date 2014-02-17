@@ -5,7 +5,7 @@
   "description": "Some module...",
   "dependencies": {
     "jquery.filler": "~0.1.0",
-    "subject": "~0.3.3"
+    "lowercase-backbone": "*"
   },
   "devDependencies": {
     "requirejs": "*",

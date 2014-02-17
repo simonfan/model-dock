@@ -121,7 +121,7 @@ define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
 	var _ = require(&#x27;lodash&#x27;),
-		subject = require(&#x27;subject&#x27;);
+		backbone = require(&#x27;lowercase-backbone&#x27;);
 
 	// initializers
 	var initAttach = require(&#x27;./__model-dock/attach/initialize&#x27;);
@@ -139,7 +139,7 @@ define(function (require, exports, module) {
 	 *     @param [model] {Object}
 	 *         Optionally provide a model that will initially fill the $el.
 	 */
-	var dock = module.exports = subject(function modelDock(extensions) {
+	var dock = module.exports = backbone.view.extend(function modelDock(extensions) {
 
 		_.extend(this, extensions);
 

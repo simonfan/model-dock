@@ -14,7 +14,8 @@ require.config({
 		'requirejs-text': '../bower_components/requirejs-text/text',
 		underscore: '../bower_components/underscore/underscore',
 		subject: '../bower_components/subject/built/subject',
-		backbone: '../bower_components/backbone/backbone'
+		backbone: '../bower_components/backbone/backbone',
+		'lowercase-backbone': '../bower_components/lowercase-backbone/built/lowercase-backbone'
 	},
 	shim: {
 		backbone: {
