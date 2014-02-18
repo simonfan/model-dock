@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Some module...",
   "dependencies": {
-    "jquery.filler": "~0.1.0",
+    "jquery.filler": "~0.1.1",
     "lowercase-backbone": "*"
   },
   "devDependencies": {

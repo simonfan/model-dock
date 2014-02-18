@@ -125,15 +125,15 @@ define(function (require, exports, module) {
 	 * @param view {backbone.view Object}
 	 * @param map {Object}
 	 */
-	module.exports = function initializeAttach(view, map, model) {
+	module.exports = function initializeAttach() {
 
 		// initialize model-to-dom attach logic.
 		initModelDom.call(this);
 		initDomModel.call(this);
 
 		// if a model was passed, attach it to the dock.
-		if (model) {
-			this.attach(model);
+		if (this.model) {
+			this.attach(this.model);
 		}
 	};
 });

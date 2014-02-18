@@ -9,7 +9,7 @@ define(function (require, exports, module) {
 
 	var update = require('./update');
 
-	module.exports = function attachDomToModel(model) {
+	module.exports = function attachDomToModel() {
 		// Listen to changes on input elements
 		// within the and call an update
 		// whenever changes occur.

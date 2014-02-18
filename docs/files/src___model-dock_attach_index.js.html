@@ -155,10 +155,10 @@ define(function (require, exports, module) {
 		this.model = model;
 
 		// attach model to dom
-		attachModelDom.apply(this, arguments);
+		attachModelDom.call(this);
 
 		// attach dom to model
-		attachDomModel.apply(this, arguments);
+		attachDomModel.call(this);
 	};
 
 

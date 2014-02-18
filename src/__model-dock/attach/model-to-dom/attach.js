@@ -21,7 +21,7 @@ define(function (require, exports, module) {
 	 * @method attach
 	 * @param model {backbone.model Object}
 	 */
-	var attach = module.exports = function attach(model) {
+	var attach = module.exports = function attach() {
 
 		// bind the update function to this
 		var update = _.bind(_update, this);
@@ -31,10 +31,10 @@ define(function (require, exports, module) {
 		// defined at the map.
 		// Any changes there should reflect
 		// changes on the $el.
-		model.on('change', update);
+		this.model.on('change', update);
 
 		// Set initial values
-		update(model);
+		update(this.model);
 	};
 
 });

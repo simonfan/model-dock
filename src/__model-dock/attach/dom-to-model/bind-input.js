@@ -7,7 +7,7 @@ define(function (require, exports, module) {
 
 	var _ = require('lodash'),
 		$ = require('jquery');
-		
+
 	/**
 	 * Binds the value of the element selected to the attribute.
 	 *

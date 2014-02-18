@@ -1,1 +1,1 @@
-define(["require","exports","module","lodash","./model-to-dom/initialize","./dom-to-model/initialize"],function(e,t,n){var r=e("lodash"),i=e("./model-to-dom/initialize"),s=e("./dom-to-model/initialize");n.exports=function(t,n,r){i.call(this),s.call(this),r&&this.attach(r)}});
+define(["require","exports","module","lodash","./model-to-dom/initialize","./dom-to-model/initialize"],function(e,t,n){var r=e("lodash"),i=e("./model-to-dom/initialize"),s=e("./dom-to-model/initialize");n.exports=function(){i.call(this),s.call(this),this.model&&this.attach(this.model)}});
