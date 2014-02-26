@@ -117,6 +117,14 @@ define(function (require, exports, module) {
 		attachModelDom = require(&#x27;./model-to-dom/attach&#x27;),
 		attachDomModel = require(&#x27;./dom-to-model/attach&#x27;);
 
+	/**
+	 * Whether to cache or not the selections.
+	 *
+	 * @property cache$Els
+	 * @type boolean
+	 */
+	exports.cache$Els = true;
+
 	exports.stringifiers = {};
 
 	/**

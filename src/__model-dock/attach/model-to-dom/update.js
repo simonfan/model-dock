@@ -25,8 +25,8 @@ define(function (require, exports, module) {
 			// map out data.
 			data = _.mapValues(model.attributes, function (value, attribute) {
 
-				console.log(value);
-				console.log(attribute);
+			//	console.log(value);
+			//	console.log(attribute);
 
 				var stringify = stringifiers[attribute];
 

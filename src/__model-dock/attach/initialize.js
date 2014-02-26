@@ -11,7 +11,9 @@ define(function (require, exports, module) {
 	'use strict';
 
 	var _ = require('lodash'),
-		initModelDom = require('./model-to-dom/initialize'),
+		backbone = require('lowercase-backbone');
+
+	var initModelDom = require('./model-to-dom/initialize'),
 		initDomModel = require('./dom-to-model/initialize');
 
 	/**
@@ -27,9 +29,10 @@ define(function (require, exports, module) {
 		initModelDom.call(this);
 		initDomModel.call(this);
 
-		// if a model was passed, attach it to the dock.
-		if (this.model) {
-			this.attach(this.model);
-		}
+		// if a model was defined, use it.
+		// otherwise, create a new model
+		var model = this.model || backbone.model();
+
+		this.attach(model);
 	};
 });

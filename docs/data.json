@@ -366,7 +366,18 @@
         },
         {
             "file": "src/__model-dock/attach/index.js",
-            "line": 18,
+            "line": 16,
+            "description": "Whether to cache or not the selections.",
+            "itemtype": "property",
+            "name": "cache$Els",
+            "type": "boolean",
+            "class": "",
+            "module": "archetypo",
+            "submodule": "view.dock.attach"
+        },
+        {
+            "file": "src/__model-dock/attach/index.js",
+            "line": 26,
             "description": "Hash for the parsers. Every parser function is called\nwithin the's context and takes the value read\nfrom the DOM as arugment.",
             "itemtype": "property",
             "name": "parsers",
@@ -377,7 +388,7 @@
         },
         {
             "file": "src/__model-dock/attach/index.js",
-            "line": 28,
+            "line": 36,
             "description": "String of tagnames that identify input.",
             "itemtype": "property",
             "name": "inputSelector",
@@ -388,7 +399,7 @@
         },
         {
             "file": "src/__model-dock/attach/index.js",
-            "line": 40,
+            "line": 48,
             "itemtype": "method",
             "name": "attach",
             "params": [
@@ -404,7 +415,7 @@
         },
         {
             "file": "src/__model-dock/attach/index.js",
-            "line": 61,
+            "line": 69,
             "itemtype": "method",
             "name": "detach",
             "class": "",
@@ -413,7 +424,7 @@
         },
         {
             "file": "src/__model-dock/attach/initialize.js",
-            "line": 17,
+            "line": 19,
             "description": "Initialization for attachment and detachment logic.",
             "itemtype": "method",
             "name": "initialize",
