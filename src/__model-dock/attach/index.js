@@ -13,6 +13,14 @@ define(function (require, exports, module) {
 		attachModelDom = require('./model-to-dom/attach'),
 		attachDomModel = require('./dom-to-model/attach');
 
+	/**
+	 * Whether to cache or not the selections.
+	 *
+	 * @property cache$Els
+	 * @type boolean
+	 */
+	exports.cache$Els = true;
+
 	exports.stringifiers = {};
 
 	/**
