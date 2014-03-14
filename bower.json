@@ -1,10 +1,10 @@
 {
   "name": "model-dock",
   "main": "built/model-dock.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Backbone.View that does dual-way data binding.",
   "dependencies": {
-    "jquery.filler": "0.2.1",
+    "jquery.filler": "0.2.2",
     "lowercase-backbone": "*"
   },
   "devDependencies": {

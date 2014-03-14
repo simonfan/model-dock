@@ -55,5 +55,16 @@ function(modelDock  ,  should , Backbone, fruitTemplate) {
 			fruitModel.get('name').should.eql('Not Banana Anymore!');
 
 		});
+
+		it('models may have values that are not mapped to any element. issue: #1 from jquery.filler', function () {
+			var fruitModel = new Backbone.Model({
+				name: 'Watermelon',
+				colors: ['red', 'green'],
+
+				size: 'Big',
+			});
+
+			var fdock = this.fruitDock({ $el: this.$fruit, model: fruitModel });
+		});
 	});
 });
