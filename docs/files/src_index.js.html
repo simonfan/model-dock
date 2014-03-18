@@ -141,6 +141,9 @@ define(function (require, exports, module) {
 	 */
 	var dock = module.exports = backbone.view.extend(function modelDock(extensions) {
 
+		// initialize basic backbone view
+		backbone.view.prototype.initialize.apply(this, arguments);
+
 		_.extend(this, extensions);
 
 		// initialize attach

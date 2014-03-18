@@ -480,7 +480,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 47,
+            "line": 50,
             "description": "The model this dock object should listen to.",
             "itemtype": "property",
             "name": "model",
@@ -490,7 +490,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 54,
+            "line": 57,
             "description": "Map that identifies selectors for attribvutes.",
             "itemtype": "property",
             "name": "map",
