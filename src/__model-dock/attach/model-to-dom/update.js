@@ -34,6 +34,9 @@ define(function (require, exports, module) {
 				return stringify ? stringify.call(this, value) : value;
 			});
 
+		console.log('set data');
+		console.log(data);
+
 		this.fill(data);
 	};
 });

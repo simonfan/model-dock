@@ -1,1 +1,1 @@
-define(["require","exports","module","lodash"],function(e,t,n){var r=e("lodash"),i=n.exports=function(t){var n=this.stringifiers,i=r.mapValues(t.attributes,function(e,t){var r=n[t];return r?r.call(this,e):e});this.fill(i)}});
+define(["require","exports","module","lodash"],function(e,t,n){var r=e("lodash"),i=n.exports=function(t){var n=this.stringifiers,i=r.mapValues(t.attributes,function(e,t){var r=n[t];return r?r.call(this,e):e});console.log("set data"),console.log(i),this.fill(i)}});
