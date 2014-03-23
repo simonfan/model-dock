@@ -116,6 +116,39 @@ function(modelDock, should, Backbone, fruitTemplate) {
 
 			var $price = this.$fruit.find('div[bound-attribute="price"]');
 			$price.html().should.eql('R$ 40,00')
+		});
+
+
+		describe('css properties', function () {
+			it('css properties', function (done) {
+				var fruitModel = new Backbone.Model({
+					name: 'Pineapple',
+					color: 'yellow'
+				});
+
+				var fruitDock = modelDock.extend({
+					map: {
+						color: '->css:background-color'
+					}
+				});
+
+				var fruitView = fruitDock({
+					el: this.$fruit,
+				});
+
+				fruitView.attach(fruitModel);
+
+
+				fruitModel.set({ 'color': 'green' });
+
+				setTimeout(function () {
+					fruitView.$el.css('background-color').should.eql('rgb(0, 20, 100)');
+
+					done()
+				}, 1000)
+			})
 		})
+
+
 	});
 });

@@ -28,6 +28,6 @@ define(function (require, exports, module) {
 		 * @method fill
 		 * @param data {Object}
 		 */
-		this.fill = filler(this.$el, this.map);
+		this.fill = this.$el.filler(this.map);
 	};
 });

@@ -1,1 +1,1 @@
-define(["require","exports","module","jquery.filler"],function(e,t,n){var r=e("jquery.filler"),i=n.exports=function(){this.fill=r(this.$el,this.map)}});
+define(["require","exports","module","jquery.filler"],function(e,t,n){var r=e("jquery.filler"),i=n.exports=function(){this.fill=this.$el.filler(this.map)}});
