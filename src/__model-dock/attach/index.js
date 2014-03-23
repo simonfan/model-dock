@@ -33,14 +33,6 @@ define(function (require, exports, module) {
 	 */
 	exports.parsers = {};
 
-	/**
-	 * String of tagnames that identify input.
-	 *
-	 * @property inputSelector
-	 * @type String
-	 */
-	exports.inputSelector = 'input,textarea';
-
 
 	exports.bindInput = require('./dom-to-model/bind-input');
 

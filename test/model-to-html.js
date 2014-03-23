@@ -139,13 +139,13 @@ function(modelDock, should, Backbone, fruitTemplate) {
 				fruitView.attach(fruitModel);
 
 
-				fruitModel.set({ 'color': 'green' });
+				fruitModel.set({ 'color': 'rgb(0, 20, 100)' });
 
 				setTimeout(function () {
 					fruitView.$el.css('background-color').should.eql('rgb(0, 20, 100)');
 
 					done()
-				}, 1000)
+				}, 0)
 			})
 		})
 

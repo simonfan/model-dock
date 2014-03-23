@@ -138,6 +138,11 @@ define(function (require, exports, module) {
 			var selector = $target.data(&#x27;_dock_-selector&#x27;),
 				$el = this.$els[selector];
 
+			// console.log(this.$els);
+
+			// console.log(&#x27;read &#x27; + selector);
+			// console.log($el);
+
 			// [2] read the value and parse it
 			var value = readDomValue($el),
 				parse = this.parsers[attribute];

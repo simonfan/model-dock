@@ -225,7 +225,7 @@
         },
         {
             "file": "src/__model-dock/attach/dom-to-model/initialize.js",
-            "line": 10,
+            "line": 13,
             "description": "Initialization logic for binding html input tags values\nto the models attributes.",
             "itemtype": "method",
             "name": "initialize",
@@ -235,7 +235,7 @@
         },
         {
             "file": "src/__model-dock/attach/dom-to-model/initialize.js",
-            "line": 18,
+            "line": 21,
             "description": "Hash where elements are referenced\nby their selector strings.",
             "itemtype": "property",
             "name": "$els",
@@ -388,18 +388,7 @@
         },
         {
             "file": "src/__model-dock/attach/index.js",
-            "line": 36,
-            "description": "String of tagnames that identify input.",
-            "itemtype": "property",
-            "name": "inputSelector",
-            "type": "String",
-            "class": "",
-            "module": "archetypo",
-            "submodule": "view.dock.attach"
-        },
-        {
-            "file": "src/__model-dock/attach/index.js",
-            "line": 48,
+            "line": 40,
             "itemtype": "method",
             "name": "attach",
             "params": [
@@ -415,7 +404,7 @@
         },
         {
             "file": "src/__model-dock/attach/index.js",
-            "line": 69,
+            "line": 61,
             "itemtype": "method",
             "name": "detach",
             "class": "",
