@@ -27,6 +27,9 @@ define(function (require, exports, module) {
 
 		} else {
 
+			// console.log(typeof selector);
+			// console.log('store ' + selector);
+
 			// retrieve $el and store it.
 			var $el = this.$els[selector] = this.$el.find(selector);
 

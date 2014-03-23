@@ -7,6 +7,9 @@ define(function (require, exports, module) {
 
 	var _ = require('lodash');
 
+	// internal
+	var update = require('./update');
+
 	/**
 	 * Initialization logic for binding html input tags values
 	 * to the models attributes.
@@ -29,5 +32,22 @@ define(function (require, exports, module) {
 
 			this.bindInput(selector, attribute);
 		}, this));
+
+		// build a selector string that selects the
+		// elements that are input
+		var selectors = _(this.$els).mapValues(function ($el, selector) {
+
+			if ($el.is(':input')) {
+				// it refers to an input
+				return selector.replace(/\s*->.*$/, '');
+			} else {
+				return false;
+			}
+		})
+		.values()
+		.compact()
+		.join(', ');
+
+		this.$el.on('change', selectors, _.bind(update, this));
 	};
 });

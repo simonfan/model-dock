@@ -34,6 +34,11 @@ define(function (require, exports, module) {
 			var selector = $target.data('_dock_-selector'),
 				$el = this.$els[selector];
 
+			// console.log(this.$els);
+
+			// console.log('read ' + selector);
+			// console.log($el);
+
 			// [2] read the value and parse it
 			var value = readDomValue($el),
 				parse = this.parsers[attribute];

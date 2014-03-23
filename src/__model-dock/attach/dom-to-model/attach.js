@@ -13,6 +13,6 @@ define(function (require, exports, module) {
 		// Listen to changes on input elements
 		// within the and call an update
 		// whenever changes occur.
-		this.$el.on('change', this.inputSelector, _.bind(update, this));
+	//	this.$el.on('change', this.inputSelector, _.bind(update, this));
 	};
 });

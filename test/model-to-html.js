@@ -119,6 +119,31 @@ function(modelDock, should, Backbone, fruitTemplate) {
 		});
 
 
+		it('supports model attachment on instantiation', function () {
+			var fruitModel = new Backbone.Model({
+				name: 'Melancia',
+				price: 20
+			});
+
+			var fruitDock = modelDock.extend({
+				stringifiers: {
+					price: function stringifyPrice(price) {
+						return 'R$ ' + price + ',00';
+					}
+				},
+				map: this.fruitMap
+			});
+
+			var fruitView = fruitDock({
+				el: this.$fruit,
+				model: fruitModel
+			});
+
+			var $price = this.$fruit.find('div[bound-attribute="price"]');
+			$price.html().should.eql('R$ 20,00')
+		})
+
+
 		describe('css properties', function () {
 			it('css properties', function (done) {
 				var fruitModel = new Backbone.Model({
@@ -139,13 +164,13 @@ function(modelDock, should, Backbone, fruitTemplate) {
 				fruitView.attach(fruitModel);
 
 
-				fruitModel.set({ 'color': 'green' });
+				fruitModel.set({ 'color': 'rgb(0, 20, 100)' });
 
 				setTimeout(function () {
 					fruitView.$el.css('background-color').should.eql('rgb(0, 20, 100)');
 
 					done()
-				}, 1000)
+				}, 0)
 			})
 		})
 

@@ -111,6 +111,9 @@ define(function (require, exports, module) {
 
 	var _ = require(&#x27;lodash&#x27;);
 
+	// internal
+	var update = require(&#x27;./update&#x27;);
+
 	/**
 	 * Initialization logic for binding html input tags values
 	 * to the models attributes.
@@ -133,6 +136,23 @@ define(function (require, exports, module) {
 
 			this.bindInput(selector, attribute);
 		}, this));
+
+		// build a selector string that selects the
+		// elements that are input
+		var selectors = _(this.$els).mapValues(function ($el, selector) {
+
+			if ($el.is(&#x27;:input&#x27;)) {
+				// it refers to an input
+				return selector.replace(/\s*-&gt;.*$/, &#x27;&#x27;);
+			} else {
+				return false;
+			}
+		})
+		.values()
+		.compact()
+		.join(&#x27;, &#x27;);
+
+		this.$el.on(&#x27;change&#x27;, selectors, _.bind(update, this));
 	};
 });
 

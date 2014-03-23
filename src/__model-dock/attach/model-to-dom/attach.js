@@ -26,7 +26,6 @@ define(function (require, exports, module) {
 		// bind the update function to this
 		var update = _.bind(_update, this);
 
-
 		// Listen to changes on attributes
 		// defined at the map.
 		// Any changes there should reflect
