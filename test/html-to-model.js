@@ -39,7 +39,7 @@ function(modelDock  ,  should , Backbone, fruitTemplate) {
 			});
 
 			// instantiate the fruit view
-			var fdock = this.fruitDock({ $el: this.$fruit });
+			var fdock = this.fruitDock({ el: this.$fruit });
 
 			fdock.attach(fruitModel);
 

@@ -139,18 +139,33 @@ define(function (require, exports, module) {
 	 *     @param [model] {Object}
 	 *         Optionally provide a model that will initially fill the $el.
 	 */
-	var dock = module.exports = backbone.view.extend(function modelDock(extensions) {
+	var dock = module.exports = backbone.view.extend({
 
-		// initialize basic backbone view
-		backbone.view.prototype.initialize.apply(this, arguments);
+		initialize: function initialize() {
+			// initialize basic backbone view
+			backbone.view.prototype.initialize.apply(this, arguments);
 
-		_.extend(this, extensions);
+			this.initializeModelDock.apply(this, arguments);
+		},
 
-		// initialize attach
-		initAttach.apply(this, arguments);
-	});
+		/**
+		 * Holds initialization logic for modeldock.
+		 *
+		 * @method initializeModelDock
+		 * @param options {Object}
+		 */
+		initializeModelDock: function initializeModelDock(options) {
 
-	dock.proto({
+			this.map = options.map || this.map;
+			this.model = options.model || this.model;
+			this.parsers = options.parsers || this.parsers;
+			this.sringifiers = options.stringifiers || this.stringifiers;
+			this.cache$Els = options.cache$Els || this.cache$Els;
+
+			// initialize attach
+			initAttach.apply(this, arguments);
+		},
+
 		/**
 		 * The model this dock object should listen to.
 		 *

@@ -469,7 +469,24 @@
         },
         {
             "file": "src/index.js",
-            "line": 50,
+            "line": 47,
+            "description": "Holds initialization logic for modeldock.",
+            "itemtype": "method",
+            "name": "initializeModelDock",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "",
+            "module": "model-dock",
+            "submodule": "$el.dock"
+        },
+        {
+            "file": "src/index.js",
+            "line": 65,
             "description": "The model this dock object should listen to.",
             "itemtype": "property",
             "name": "model",
@@ -479,7 +496,7 @@
         },
         {
             "file": "src/index.js",
-            "line": 57,
+            "line": 72,
             "description": "Map that identifies selectors for attribvutes.",
             "itemtype": "property",
             "name": "map",

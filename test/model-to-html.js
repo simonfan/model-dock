@@ -40,7 +40,7 @@ function(modelDock, should, Backbone, fruitTemplate) {
 
 			// instantiate the fruit view
 			var fruitDock = modelDock({
-				$el: this.$fruit,
+				el: this.$fruit,
 				map: this.fruitMap
 			});
 
@@ -73,7 +73,7 @@ function(modelDock, should, Backbone, fruitTemplate) {
 
 			// instantiate the fruit view
 			var fruitDock = modelDock({
-				$el: this.$fruit,
+				el: this.$fruit,
 				map: this.fruitMap
 			});
 
@@ -108,7 +108,7 @@ function(modelDock, should, Backbone, fruitTemplate) {
 			});
 
 			var fruitView = saleFruitDock({
-				$el: this.$fruit,
+				el: this.$fruit,
 				map: this.fruitMap
 			});
 
