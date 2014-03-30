@@ -25,9 +25,6 @@ define(function (require, exports, module) {
 	 */
 	module.exports = function initializeAttach() {
 
-		// invoke rendering.
-		this.render();
-
 		// initialize model-to-dom attach logic.
 		initModelDom.call(this);
 		initDomModel.call(this);

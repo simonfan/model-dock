@@ -224,9 +224,6 @@ define('__model-dock/attach/initialize',['require','exports','module','lodash','
 	 */
 	module.exports = function initializeAttach() {
 
-		// invoke rendering.
-		this.render();
-
 		// initialize model-to-dom attach logic.
 		initModelDom.call(this);
 		initDomModel.call(this);
