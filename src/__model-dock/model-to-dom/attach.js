@@ -23,17 +23,17 @@ define(function (require, exports, module) {
 	 */
 	var attach = module.exports = function attach() {
 
-		// bind the update function to this
-		var update = _.bind(_update, this);
-
 		// Listen to changes on attributes
 		// defined at the map.
 		// Any changes there should reflect
 		// changes on the $el.
-		this.model.on('change', update);
+
+		// listenTo always invokes the event handler
+		// in 'this' context
+		this.listenTo(this.model, 'change', _update);
 
 		// Set initial values
-		update(this.model);
+		_update.call(this, this.model);
 	};
 
 });

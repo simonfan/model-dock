@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/__model-dock/attach/dom-to-model/attach.js - dock</title>
+    <title>src/__model-dock/dom-to-model/update.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/__model-dock/attach/dom-to-model/attach.js</h1>
+                        <h1 class="file-heading">File: src/__model-dock/dom-to-model/update.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -109,15 +107,49 @@
 define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
-	var _ = require(&#x27;lodash&#x27;);
+	var $ = require(&#x27;jquery&#x27;);
 
-	var update = require(&#x27;./update&#x27;);
+	// reads the value from DOM elements.
+	var readDomValue = require(&#x27;./read-dom-value&#x27;);
 
-	module.exports = function attachDomToModel() {
-		// Listen to changes on input elements
-		// within the and call an update
-		// whenever changes occur.
-	//	this.$el.on(&#x27;change&#x27;, this.inputSelector, _.bind(update, this));
+	/**
+	 * Method used to hanlde changes on input elements within
+	 * the.
+	 *
+	 * Very close-bound to the way bindInput works.
+	 *
+	 * @method updateModel
+	 * @_private_
+	 * @param e {Event}
+	 */
+	module.exports = function updateModel(e) {
+			// wrap the target into a jquery object
+		var $target = $(e.target),
+			// retrieve the attribute that the target is bound to
+			attribute = $target.data(&#x27;_dock_-bound-attribute&#x27;);
+
+		if (attribute) {
+			// only update if the element
+			// has an attribute bound to it.
+
+			// [1] retrieve the $el
+			var selector = $target.data(&#x27;_dock_-selector&#x27;),
+				$el = this.$els[selector];
+
+			// console.log(this.$els);
+
+			// console.log(&#x27;read &#x27; + selector);
+			// console.log($el);
+
+			// [2] read the value and parse it
+			var value = readDomValue($el),
+				parse = this.parsers[attribute];
+
+			value = parse ? parse.call(this, value) : value;
+
+			// [3] set.
+			this.model.set(attribute, value);
+		}
 	};
 });
 

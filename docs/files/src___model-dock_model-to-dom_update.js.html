@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/__model-dock/attach/dom-to-model/initialize.js - dock</title>
+    <title>src/__model-dock/model-to-dom/update.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,61 +96,47 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/__model-dock/attach/dom-to-model/initialize.js</h1>
+                        <h1 class="file-heading">File: src/__model-dock/model-to-dom/update.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * @module backbone.model
- * @submodule html-to-model
+ * @module archetypo
+ * @submodule $el.dock.attach
  */
+
+/* jshint ignore:start */
+if (typeof define !== &#x27;function&#x27;) { var define = require(&#x27;amdefine&#x27;)(module) }
+/* jshint ignore:end */
+
 define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
 	var _ = require(&#x27;lodash&#x27;);
 
-	// internal
-	var update = require(&#x27;./update&#x27;);
-
 	/**
-	 * Initialization logic for binding html input tags values
-	 * to the models attributes.
+	 * Method used internally to update the html.
 	 *
-	 * @method initialize
+	 * @method update
+	 * @_private_
+	 * @param model
 	 */
-	module.exports = function initializeDomToModel() {
+	var update = module.exports = function update(model) {
 
-		/**
-		 * Hash where elements are referenced
-		 * by their selector strings.
-		 *
-		 * @property $els
-		 * @type Object
-		 */
-		this.$els = {};
+		var stringifiers = this.stringifiers,
+			// map out data.
+			data = _.mapValues(model.attributes, function (value, attribute) {
 
-		// bind inputs.
-		_.each(this.map, _.bind(function (selector, attribute) {
+			//	// console.log(value);
+			//	// console.log(attribute);
 
-			this.bindInput(selector, attribute);
-		}, this));
+				var stringify = stringifiers[attribute];
 
-		// build a selector string that selects the
-		// elements that are input
-		var selectors = _(this.$els).mapValues(function ($el, selector) {
+				// if no stringify is defined, return the value
+				return stringify ? stringify.call(this, value) : value;
+			});
 
-			if ($el.is(&#x27;:input&#x27;)) {
-				// it refers to an input
-				return selector.replace(/\s*-&gt;.*$/, &#x27;&#x27;);
-			} else {
-				return false;
-			}
-		})
-		.values()
-		.compact()
-		.join(&#x27;, &#x27;);
-
-		this.$el.on(&#x27;change&#x27;, selectors, _.bind(update, this));
+		this.fill(data);
 	};
 });
 

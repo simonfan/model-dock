@@ -141,6 +141,39 @@ function(modelDock, should, Backbone, fruitTemplate) {
 
 			var $price = this.$fruit.find('div[bound-attribute="price"]');
 			$price.html().should.eql('R$ 20,00')
+		});
+
+		it('supports detaching models', function () {
+			var melancia = new Backbone.Model({
+					name: 'Melancia',
+					price: 20,
+				}),
+				papaya = new Backbone.Model({
+					name: 'Mamao',
+					price: 10,
+				});
+
+			var fruitDock = modelDock.extend({
+				map: this.fruitMap
+			});
+
+			// start view with melancia model
+			var fruitView = fruitDock({
+				el: this.$fruit,
+				model: melancia
+			});
+
+			// detach melancia model
+			fruitView.detach();
+
+			// set value on melancia
+			melancia.set('price', 40);
+
+			// expect the fruitview not to be modified
+			var $price = this.$fruit.find('div[bound-attribute="price"]');
+			$price.html().should.eql('20');
+
+
 		})
 
 

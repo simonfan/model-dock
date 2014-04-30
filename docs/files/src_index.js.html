@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -124,7 +122,7 @@ define(function (require, exports, module) {
 		backbone = require(&#x27;lowercase-backbone&#x27;);
 
 	// initializers
-	var initAttach = require(&#x27;./__model-dock/attach/initialize&#x27;);
+	var initAttach = require(&#x27;./__model-dock/initialize-attach&#x27;);
 
 	/**
 	 * The constructor for the dock object.
@@ -182,10 +180,7 @@ define(function (require, exports, module) {
 	});
 
 	// methods related to attaching and detaching models from the dock
-	dock.proto(require(&#x27;./__model-dock/attach/index&#x27;));
-
-	// the methods that emulate model action.
-	dock.proto(require(&#x27;./__model-dock/proxy&#x27;));
+	dock.proto(require(&#x27;./__model-dock/methods&#x27;));
 });
 
     </pre>

@@ -1,9 +1,9 @@
-define(['dock', 'should', 'backbone', 'text!/test/templates/fruit.html'],
-function(dock, should, Backbone, fruitTemplate) {
+define(['model-dock', 'should', 'backbone', 'text!/test/templates/fruit.html'],
+function(modelDock  , should, Backbone, fruitTemplate) {
 
 	'use strict';
 
-	describe('dock html-to-model', function () {
+	describe('proxy', function () {
 
 		beforeEach(function () {
 
@@ -17,7 +17,7 @@ function(dock, should, Backbone, fruitTemplate) {
 			this.$fruit = $fixture.find('#fruit');
 
 			// Backbone cosntructors
-			this.fruitDock = dock.extend({
+			this.fruitDock = modelDock.extend({
 				map: {
 					'name': ['input[name="name"]', '.name', '.name -> attr:href'],
 					'colors': 'input[name="colors"]'
@@ -30,32 +30,46 @@ function(dock, should, Backbone, fruitTemplate) {
 			this.$fixture.remove();
 		});
 
-		it('values on the model are modified if the html is changed', function () {
+		it('proxies events from the model', function () {
 
-			// instantiate the model for the fruit.
-			var fruitModel = new Backbone.Model({
-				name: 'Banana',
-				colors: ['yellow', 'green']
-			});
+			var melancia = new Backbone.Model({
+					name: 'melancia',
+					colors: ['red', 'green']
+				}),
+				banana = new Backbone.Model({
+					name: 'banana',
+					colors: ['yellow', 'green']
+				});
 
-			// instantiate the fruit view
 			var fdock = this.fruitDock({
-				$el: this.$fruit
+				el: this.$fruit,
+				model: melancia
 			});
 
-			fdock.attach(fruitModel);
 
+			// control variable
+			var control = false;
 
-			// emulate input modifications
-			var $fruit = this.$fruit,
-				$fname = $fruit.find('input[name="name"]');
+			// listen to proxied event
+			// (change:colors is triggered on the model, and proxied to the dock-view)
+			fdock.on('change:colors', function (model) {
+				control = model.get('colors');
+			});
 
-			$fname
-				.val('Not Banana Anymore!')
-				.trigger('change');
+			// change colors of melancia
+			melancia.set('colors', ['gray', 'brown']);
+			control.should.eql(['gray', 'brown']);
 
-			fruitModel.get('name').should.eql('Not Banana Anymore!');
-
+			// detach melancia
+			fdock.attach(banana);
+			// change colors on melancia
+			melancia.set('colors', ['red', 'blue']);
+			// control should remain unchanged
+			control.should.eql(['gray', 'brown']);
+			// change colors on banana
+			banana.set('colors', ['green', 'pink']);
+			// control should have changed
+			control.should.eql(['green', 'pink']);
 		});
 	});
 });

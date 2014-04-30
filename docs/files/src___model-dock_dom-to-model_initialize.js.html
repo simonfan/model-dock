@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/__model-dock/attach/model-to-dom/attach.js - dock</title>
+    <title>src/__model-dock/dom-to-model/initialize.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,48 +96,63 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/__model-dock/attach/model-to-dom/attach.js</h1>
+                        <h1 class="file-heading">File: src/__model-dock/dom-to-model/initialize.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * @module archetypo
- * @submodule $el.dock.attach
+ * @module backbone.model
+ * @submodule html-to-model
  */
-
-/* jshint ignore:start */
-if (typeof define !== &#x27;function&#x27;) { var define = require(&#x27;amdefine&#x27;)(module) }
-/* jshint ignore:end */
-
 define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
 	var _ = require(&#x27;lodash&#x27;);
 
-	// update function
-	var _update = require(&#x27;./update&#x27;);
+	// internal
+	var update = require(&#x27;./update&#x27;),
+		bindInput = require(&#x27;./bind-input&#x27;);
 
 	/**
-	 * Defines attachment logic for binding the model&#x27;s data to the DOM.
+	 * Initialization logic for binding html input tags values
+	 * to the models attributes.
 	 *
-	 * @method attach
-	 * @param model {backbone.model Object}
+	 * @method initialize
 	 */
-	var attach = module.exports = function attach() {
+	module.exports = function initializeDomToModel() {
 
-		// bind the update function to this
-		var update = _.bind(_update, this);
+		/**
+		 * Hash where elements are referenced
+		 * by their selector strings.
+		 *
+		 * @property $els
+		 * @type Object
+		 */
+		this.$els = {};
 
-		// Listen to changes on attributes
-		// defined at the map.
-		// Any changes there should reflect
-		// changes on the $el.
-		this.model.on(&#x27;change&#x27;, update);
+		// bind inputs.
+		_.each(this.map, _.bind(function (selector, attribute) {
 
-		// Set initial values
-		update(this.model);
+			bindInput.call(this, selector, attribute);
+		}, this));
+
+		// build a selector string that selects the
+		// elements that are input
+		var selectors = _(this.$els).mapValues(function ($el, selector) {
+
+			if ($el.is(&#x27;:input&#x27;)) {
+				// it refers to an input
+				return selector.replace(/\s*-&gt;.*$/, &#x27;&#x27;);
+			} else {
+				return false;
+			}
+		})
+		.values()
+		.compact()
+		.join(&#x27;, &#x27;);
+
+		this.$el.on(&#x27;change&#x27;, selectors, _.bind(update, this));
 	};
-
 });
 
     </pre>

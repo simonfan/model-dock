@@ -11,7 +11,8 @@ define(function (require, exports, module) {
 
 	var _ = require('lodash'),
 		attachModelDom = require('./model-to-dom/attach'),
-		attachDomModel = require('./dom-to-model/attach');
+		attachDomModel = require('./dom-to-model/attach'),
+		proxyEvents = require('./events/proxy');
 
 	/**
 	 * Whether to cache or not the selections.
@@ -33,10 +34,6 @@ define(function (require, exports, module) {
 	 */
 	exports.parsers = {};
 
-
-	exports.bindInput = require('./dom-to-model/bind-input');
-
-
 	/**
 	 *
 	 *
@@ -55,6 +52,9 @@ define(function (require, exports, module) {
 
 		// attach dom to model
 		attachDomModel.call(this);
+
+		// proxy events
+		proxyEvents.call(this);
 	};
 
 
@@ -66,10 +66,10 @@ define(function (require, exports, module) {
 	exports.detach = function detach() {
 
 		if (this.model) {
-			// stop listening to old model.
-			this.model.off('change', this._updateView);
+			// Stop listening to all events from the model.
+			this.stopListening(this.model);
 
-			// set this model to another value
+			// unset this.model
 			this.model = void(0);
 		}
 	};

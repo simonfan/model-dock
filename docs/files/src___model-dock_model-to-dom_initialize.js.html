@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/__model-dock/attach/dom-to-model/read-dom-value.js - dock</title>
+    <title>src/__model-dock/model-to-dom/initialize.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,64 +96,41 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/__model-dock/attach/dom-to-model/read-dom-value.js</h1>
+                        <h1 class="file-heading">File: src/__model-dock/model-to-dom/initialize.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * @module backbone.view.model
- * @submodule html-to-model
+ * @module archetypo
+ * @submodule $el.dock.attach
  */
+
+/* jshint ignore:start */
+if (typeof define !== &#x27;function&#x27;) { var define = require(&#x27;amdefine&#x27;)(module) }
+/* jshint ignore:end */
+
 define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
-	var _ = require(&#x27;lodash&#x27;),
-		$ = require(&#x27;jquery&#x27;);
+	var filler = require(&#x27;jquery.filler&#x27;);
 
 	/**
-	 * Hash of functions that will return a value
-	 * given an jquery $el.
-	 * Keyed by tagName
 	 *
-	 * @property $readers
-	 * @private
-	 * @type Object
-	 */
-	var $readers = {
-		&#x27;default&#x27;: function readDefault($el) {
-			return $el.val();
-		},
-
-		&#x27;DIV&#x27;: function readDiv($el) {
-			return $el.html();
-		},
-
-		&#x27;INPUT&#x27;: function readInput($el) {
-			if ($el.prop(&#x27;type&#x27;) === &#x27;checkbox&#x27;) {
-				return _.map($el.filter(&#x27;:checked&#x27;), function (el) {
-					return $(el).val();
-				});
-
-			} else {
-				return $el.val();
-			}
-		}
-	};
-
-	/**
-	 * Takes a selector string and returns the value of it.
 	 *
-	 * @method readDomValue
-	 * @param selector {String}
+	 * @method initialize
+	 * @param $el {backbone.$el Object}
+	 * @param map {Object}
 	 */
-	module.exports = function readDomValue($el) {
-
-		// [1] retrieve reader function
-		var tagName = $el.prop(&#x27;tagName&#x27;),
-			reader = $readers[tagName] || $readers[&#x27;default&#x27;];
-
-		// [2] read and return.
-		return reader($el);
+	var initialize = module.exports = function initialize() {
+		/**
+		 * The function that will fill in html for us.
+		 * Uses jquery.filler to build a cache of the
+		 * jquery DOM selections.
+		 *
+		 * @method fill
+		 * @param data {Object}
+		 */
+		this.fill = this.$el.filler(this.map);
 	};
 });
 

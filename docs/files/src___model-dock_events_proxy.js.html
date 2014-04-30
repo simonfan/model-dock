@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/__model-dock/proxy.js - dock</title>
+    <title>src/__model-dock/events/proxy.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,41 +96,31 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/__model-dock/proxy.js</h1>
+                        <h1 class="file-heading">File: src/__model-dock/events/proxy.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/**
- * The dock is the object that links together views and models.
- *
- * @module archetypo
- * @submodule view.dock
- */
-
-/* jshint ignore:start */
-if (typeof define !== &#x27;function&#x27;) { var define = require(&#x27;amdefine&#x27;)(module) }
-/* jshint ignore:end */
-
 define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
 	var _ = require(&#x27;lodash&#x27;);
 
-	exports.proxyMethod = function proxyMethod(method, args) {
-		var model = this.model;
+	function proxyEvent() {
 
-		if (model) {
-			return model[method].apply(model, args);
-		}
+		this.trigger.apply(this, arguments);
+
+	}
+
+	/**
+	 * Initialization for attachment and detachment logic.
+	 *
+	 * @method initialize
+	 * @param view {backbone.view Object}
+	 * @param map {Object}
+	 */
+	module.exports = function proxyEvents() {
+		this.listenTo(this.model, &#x27;all&#x27;, proxyEvent);
 	};
-
-	var methods = [&#x27;set&#x27;, &#x27;get&#x27;, &#x27;save&#x27;];
-
-	_.each(methods, function (method) {
-		exports[method] = function () {
-			return this.proxyMethod(method, arguments);
-		};
-	});
 });
 
     </pre>

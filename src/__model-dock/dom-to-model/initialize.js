@@ -8,7 +8,8 @@ define(function (require, exports, module) {
 	var _ = require('lodash');
 
 	// internal
-	var update = require('./update');
+	var update = require('./update'),
+		bindInput = require('./bind-input');
 
 	/**
 	 * Initialization logic for binding html input tags values
@@ -30,7 +31,7 @@ define(function (require, exports, module) {
 		// bind inputs.
 		_.each(this.map, _.bind(function (selector, attribute) {
 
-			this.bindInput(selector, attribute);
+			bindInput.call(this, selector, attribute);
 		}, this));
 
 		// build a selector string that selects the

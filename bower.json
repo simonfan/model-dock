@@ -1,7 +1,7 @@
 {
   "name": "model-dock",
   "main": "built/model-dock.js",
-  "version": "0.3.6",
+  "version": "0.4.6",
   "description": "Backbone.View that does dual-way data binding.",
   "dependencies": {
 	"jquery.filler": "0.2.3",

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>view.dock - dock</title>
+    <title>src/__model-dock/dom-to-model/bind-input.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,38 +96,57 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>view.dock Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: src/__model-dock/dom-to-model/bind-input.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * @module backbone.model
+ * @submodule html-to-model
+ */
+define(function (require, exports, module) {
+	&#x27;use strict&#x27;;
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/src___model-dock_proxy.js.html#l1"><code>src&#x2F;__model-dock&#x2F;proxy.js:1</code></a>
-        </div>
-    
+	var _ = require(&#x27;lodash&#x27;),
+		$ = require(&#x27;jquery&#x27;);
 
-    
-</div>
+	var bindInput = require(&#x27;./bind-input&#x27;);
 
+	/**
+	 * Binds the value of the element selected to the attribute.
+	 *
+	 * @method bindInput
+	 * @param selector {String|Array}
+	 * @param attribute {String}
+	 */
+	module.exports = function bindInput(selector, attribute) {
 
+		if (_.isArray(selector)) {
 
-<div class="box intro">
-    <p>The dock is the object that links together views and models.</p>
+			_.each(selector, _.bind(function (sel) {
 
-</div>
+				bindInput.call(this, sel, attribute);
 
+			}, this));
 
+		} else {
 
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-    </div>
+			// console.log(typeof selector);
+			// console.log(&#x27;store &#x27; + selector);
 
-    <div class="yui3-u-1-2">
-        
-    </div>
+			// retrieve $el and store it.
+			var $el = this.$els[selector] = this.$el.find(selector);
+
+			if ($el.length &gt; 0) {
+				$el.data(&#x27;_dock_-bound-attribute&#x27;, attribute)
+					.data(&#x27;_dock_-selector&#x27;, selector);
+			}
+		}
+	};
+
+});
+
+    </pre>
 </div>
 
                     </div>

@@ -9,7 +9,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "backbone.view.model",
         "html-to-model",
         "model-dock",
-        "view.dock",
         "view.dock.attach"
     ],
     "allModules": [
@@ -41,11 +40,6 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "model-dock",
             "name": "model-dock"
-        },
-        {
-            "displayName": "view.dock",
-            "name": "view.dock",
-            "description": "The dock is the object that links together views and models."
         },
         {
             "displayName": "view.dock.attach",

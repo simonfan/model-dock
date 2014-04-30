@@ -8,7 +8,7 @@
 
 /* jshint ignore:end */
 
-define('__model-dock/attach/model-to-dom/initialize',['require','exports','module','jquery.filler'],function (require, exports, module) {
+define('__model-dock/model-to-dom/initialize',['require','exports','module','jquery.filler'],function (require, exports, module) {
 	
 
 	var filler = require('jquery.filler');
@@ -37,7 +37,7 @@ define('__model-dock/attach/model-to-dom/initialize',['require','exports','modul
  * @module backbone.view.model
  * @submodule html-to-model
  */
-define('__model-dock/attach/dom-to-model/read-dom-value',['require','exports','module','lodash','jquery'],function (require, exports, module) {
+define('__model-dock/dom-to-model/read-dom-value',['require','exports','module','lodash','jquery'],function (require, exports, module) {
 	
 
 	var _ = require('lodash'),
@@ -94,7 +94,7 @@ define('__model-dock/attach/dom-to-model/read-dom-value',['require','exports','m
  * @module backbone.model
  * @submodule html-to-model
  */
-define('__model-dock/attach/dom-to-model/update',['require','exports','module','jquery','./read-dom-value'],function (require, exports, module) {
+define('__model-dock/dom-to-model/update',['require','exports','module','jquery','./read-dom-value'],function (require, exports, module) {
 	
 
 	var $ = require('jquery');
@@ -147,13 +147,60 @@ define('__model-dock/attach/dom-to-model/update',['require','exports','module','
  * @module backbone.model
  * @submodule html-to-model
  */
-define('__model-dock/attach/dom-to-model/initialize',['require','exports','module','lodash','./update'],function (require, exports, module) {
+define('__model-dock/dom-to-model/bind-input',['require','exports','module','lodash','jquery','./bind-input'],function (require, exports, module) {
+	
+
+	var _ = require('lodash'),
+		$ = require('jquery');
+
+	var bindInput = require('./bind-input');
+
+	/**
+	 * Binds the value of the element selected to the attribute.
+	 *
+	 * @method bindInput
+	 * @param selector {String|Array}
+	 * @param attribute {String}
+	 */
+	module.exports = function bindInput(selector, attribute) {
+
+		if (_.isArray(selector)) {
+
+			_.each(selector, _.bind(function (sel) {
+
+				bindInput.call(this, sel, attribute);
+
+			}, this));
+
+		} else {
+
+			// console.log(typeof selector);
+			// console.log('store ' + selector);
+
+			// retrieve $el and store it.
+			var $el = this.$els[selector] = this.$el.find(selector);
+
+			if ($el.length > 0) {
+				$el.data('_dock_-bound-attribute', attribute)
+					.data('_dock_-selector', selector);
+			}
+		}
+	};
+
+});
+
+/**
+ * @module backbone.model
+ * @submodule html-to-model
+ */
+define('__model-dock/dom-to-model/initialize',['require','exports','module','lodash','./update','./bind-input'],function (require, exports, module) {
 	
 
 	var _ = require('lodash');
 
 	// internal
-	var update = require('./update');
+	var update = require('./update'),
+		bindInput = require('./bind-input');
 
 	/**
 	 * Initialization logic for binding html input tags values
@@ -175,7 +222,7 @@ define('__model-dock/attach/dom-to-model/initialize',['require','exports','modul
 		// bind inputs.
 		_.each(this.map, _.bind(function (selector, attribute) {
 
-			this.bindInput(selector, attribute);
+			bindInput.call(this, selector, attribute);
 		}, this));
 
 		// build a selector string that selects the
@@ -206,7 +253,7 @@ define('__model-dock/attach/dom-to-model/initialize',['require','exports','modul
 
 /* jshint ignore:end */
 
-define('__model-dock/attach/initialize',['require','exports','module','lodash','lowercase-backbone','./model-to-dom/initialize','./dom-to-model/initialize'],function (require, exports, module) {
+define('__model-dock/initialize-attach',['require','exports','module','lodash','lowercase-backbone','./model-to-dom/initialize','./dom-to-model/initialize'],function (require, exports, module) {
 	
 
 	var _ = require('lodash'),
@@ -245,7 +292,7 @@ define('__model-dock/attach/initialize',['require','exports','module','lodash','
 
 /* jshint ignore:end */
 
-define('__model-dock/attach/model-to-dom/update',['require','exports','module','lodash'],function (require, exports, module) {
+define('__model-dock/model-to-dom/update',['require','exports','module','lodash'],function (require, exports, module) {
 	
 
 	var _ = require('lodash');
@@ -285,7 +332,7 @@ define('__model-dock/attach/model-to-dom/update',['require','exports','module','
 
 /* jshint ignore:end */
 
-define('__model-dock/attach/model-to-dom/attach',['require','exports','module','lodash','./update'],function (require, exports, module) {
+define('__model-dock/model-to-dom/attach',['require','exports','module','lodash','./update'],function (require, exports, module) {
 	
 
 	var _ = require('lodash');
@@ -301,17 +348,17 @@ define('__model-dock/attach/model-to-dom/attach',['require','exports','module','
 	 */
 	var attach = module.exports = function attach() {
 
-		// bind the update function to this
-		var update = _.bind(_update, this);
-
 		// Listen to changes on attributes
 		// defined at the map.
 		// Any changes there should reflect
 		// changes on the $el.
-		this.model.on('change', update);
+
+		// listenTo always invokes the event handler
+		// in 'this' context
+		this.listenTo(this.model, 'change', _update);
 
 		// Set initial values
-		update(this.model);
+		_update.call(this, this.model);
 	};
 
 });
@@ -320,7 +367,7 @@ define('__model-dock/attach/model-to-dom/attach',['require','exports','module','
  * @module backbone.model
  * @submodule html-to-model
  */
-define('__model-dock/attach/dom-to-model/attach',['require','exports','module','lodash','./update'],function (require, exports, module) {
+define('__model-dock/dom-to-model/attach',['require','exports','module','lodash','./update'],function (require, exports, module) {
 	
 
 	var _ = require('lodash');
@@ -335,48 +382,27 @@ define('__model-dock/attach/dom-to-model/attach',['require','exports','module','
 	};
 });
 
-/**
- * @module backbone.model
- * @submodule html-to-model
- */
-define('__model-dock/attach/dom-to-model/bind-input',['require','exports','module','lodash','jquery'],function (require, exports, module) {
+define('__model-dock/events/proxy',['require','exports','module','lodash'],function (require, exports, module) {
 	
 
-	var _ = require('lodash'),
-		$ = require('jquery');
+	var _ = require('lodash');
+
+	function proxyEvent() {
+
+		this.trigger.apply(this, arguments);
+
+	}
 
 	/**
-	 * Binds the value of the element selected to the attribute.
+	 * Initialization for attachment and detachment logic.
 	 *
-	 * @method bindInput
-	 * @param selector {String|Array}
-	 * @param attribute {String}
+	 * @method initialize
+	 * @param view {backbone.view Object}
+	 * @param map {Object}
 	 */
-	module.exports = function bindInput(selector, attribute) {
-
-		if (_.isArray(selector)) {
-
-			_.each(selector, _.bind(function (sel) {
-
-				this.bindInput(sel, attribute);
-
-			}, this));
-
-		} else {
-
-			// console.log(typeof selector);
-			// console.log('store ' + selector);
-
-			// retrieve $el and store it.
-			var $el = this.$els[selector] = this.$el.find(selector);
-
-			if ($el.length > 0) {
-				$el.data('_dock_-bound-attribute', attribute)
-					.data('_dock_-selector', selector);
-			}
-		}
+	module.exports = function proxyEvents() {
+		this.listenTo(this.model, 'all', proxyEvent);
 	};
-
 });
 
 /**
@@ -388,11 +414,12 @@ define('__model-dock/attach/dom-to-model/bind-input',['require','exports','modul
 
 /* jshint ignore:end */
 
-define('__model-dock/attach/index',['require','exports','module','lodash','./model-to-dom/attach','./dom-to-model/attach','./dom-to-model/bind-input'],function (require, exports, module) {
+define('__model-dock/methods',['require','exports','module','lodash','./model-to-dom/attach','./dom-to-model/attach','./events/proxy'],function (require, exports, module) {
 
 	var _ = require('lodash'),
 		attachModelDom = require('./model-to-dom/attach'),
-		attachDomModel = require('./dom-to-model/attach');
+		attachDomModel = require('./dom-to-model/attach'),
+		proxyEvents = require('./events/proxy');
 
 	/**
 	 * Whether to cache or not the selections.
@@ -414,10 +441,6 @@ define('__model-dock/attach/index',['require','exports','module','lodash','./mod
 	 */
 	exports.parsers = {};
 
-
-	exports.bindInput = require('./dom-to-model/bind-input');
-
-
 	/**
 	 *
 	 *
@@ -436,6 +459,9 @@ define('__model-dock/attach/index',['require','exports','module','lodash','./mod
 
 		// attach dom to model
 		attachDomModel.call(this);
+
+		// proxy events
+		proxyEvents.call(this);
 	};
 
 
@@ -447,46 +473,13 @@ define('__model-dock/attach/index',['require','exports','module','lodash','./mod
 	exports.detach = function detach() {
 
 		if (this.model) {
-			// stop listening to old model.
-			this.model.off('change', this._updateView);
+			// Stop listening to all events from the model.
+			this.stopListening(this.model);
 
-			// set this model to another value
+			// unset this.model
 			this.model = void(0);
 		}
 	};
-});
-
-/**
- * The dock is the object that links together views and models.
- *
- * @module archetypo
- * @submodule view.dock
- */
-
-/* jshint ignore:start */
-
-/* jshint ignore:end */
-
-define('__model-dock/proxy',['require','exports','module','lodash'],function (require, exports, module) {
-	
-
-	var _ = require('lodash');
-
-	exports.proxyMethod = function proxyMethod(method, args) {
-		var model = this.model;
-
-		if (model) {
-			return model[method].apply(model, args);
-		}
-	};
-
-	var methods = ['set', 'get', 'save'];
-
-	_.each(methods, function (method) {
-		exports[method] = function () {
-			return this.proxyMethod(method, arguments);
-		};
-	});
 });
 
 //     model-dock
@@ -504,14 +497,14 @@ define('__model-dock/proxy',['require','exports','module','lodash'],function (re
 
 /* jshint ignore:end */
 
-define('model-dock',['require','exports','module','lodash','lowercase-backbone','./__model-dock/attach/initialize','./__model-dock/attach/index','./__model-dock/proxy'],function (require, exports, module) {
+define('model-dock',['require','exports','module','lodash','lowercase-backbone','./__model-dock/initialize-attach','./__model-dock/methods'],function (require, exports, module) {
 	
 
 	var _ = require('lodash'),
 		backbone = require('lowercase-backbone');
 
 	// initializers
-	var initAttach = require('./__model-dock/attach/initialize');
+	var initAttach = require('./__model-dock/initialize-attach');
 
 	/**
 	 * The constructor for the dock object.
@@ -569,8 +562,5 @@ define('model-dock',['require','exports','module','lodash','lowercase-backbone',
 	});
 
 	// methods related to attaching and detaching models from the dock
-	dock.proto(require('./__model-dock/attach/index'));
-
-	// the methods that emulate model action.
-	dock.proto(require('./__model-dock/proxy'));
+	dock.proto(require('./__model-dock/methods'));
 });

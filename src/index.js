@@ -20,7 +20,7 @@ define(function (require, exports, module) {
 		backbone = require('lowercase-backbone');
 
 	// initializers
-	var initAttach = require('./__model-dock/attach/initialize');
+	var initAttach = require('./__model-dock/initialize-attach');
 
 	/**
 	 * The constructor for the dock object.
@@ -78,8 +78,5 @@ define(function (require, exports, module) {
 	});
 
 	// methods related to attaching and detaching models from the dock
-	dock.proto(require('./__model-dock/attach/index'));
-
-	// the methods that emulate model action.
-	dock.proto(require('./__model-dock/proxy'));
+	dock.proto(require('./__model-dock/methods'));
 });

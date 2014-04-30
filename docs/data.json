@@ -4,8 +4,8 @@
         "version": "0.0.0"
     },
     "files": {
-        "src/__model-dock/attach/dom-to-model/attach.js": {
-            "name": "src/__model-dock/attach/dom-to-model/attach.js",
+        "src/__model-dock/dom-to-model/attach.js": {
+            "name": "src/__model-dock/dom-to-model/attach.js",
             "modules": {
                 "html-to-model": 1
             },
@@ -13,36 +13,43 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/dom-to-model/bind-input.js": {
-            "name": "src/__model-dock/attach/dom-to-model/bind-input.js",
+        "src/__model-dock/dom-to-model/bind-input.js": {
+            "name": "src/__model-dock/dom-to-model/bind-input.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/dom-to-model/initialize.js": {
-            "name": "src/__model-dock/attach/dom-to-model/initialize.js",
+        "src/__model-dock/dom-to-model/initialize.js": {
+            "name": "src/__model-dock/dom-to-model/initialize.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/dom-to-model/read-dom-value.js": {
-            "name": "src/__model-dock/attach/dom-to-model/read-dom-value.js",
+        "src/__model-dock/dom-to-model/read-dom-value.js": {
+            "name": "src/__model-dock/dom-to-model/read-dom-value.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/dom-to-model/update.js": {
-            "name": "src/__model-dock/attach/dom-to-model/update.js",
+        "src/__model-dock/dom-to-model/update.js": {
+            "name": "src/__model-dock/dom-to-model/update.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/model-to-dom/attach.js": {
-            "name": "src/__model-dock/attach/model-to-dom/attach.js",
+        "src/__model-dock/events/proxy.js": {
+            "name": "src/__model-dock/events/proxy.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/__model-dock/model-to-dom/attach.js": {
+            "name": "src/__model-dock/model-to-dom/attach.js",
             "modules": {
                 "$el.dock.attach": 1
             },
@@ -50,22 +57,22 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/model-to-dom/initialize.js": {
-            "name": "src/__model-dock/attach/model-to-dom/initialize.js",
+        "src/__model-dock/model-to-dom/initialize.js": {
+            "name": "src/__model-dock/model-to-dom/initialize.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/model-to-dom/update.js": {
-            "name": "src/__model-dock/attach/model-to-dom/update.js",
+        "src/__model-dock/model-to-dom/update.js": {
+            "name": "src/__model-dock/model-to-dom/update.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/index.js": {
-            "name": "src/__model-dock/attach/index.js",
+        "src/__model-dock/initialize-attach.js": {
+            "name": "src/__model-dock/initialize-attach.js",
             "modules": {
                 "view.dock.attach": 1
             },
@@ -73,18 +80,9 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/__model-dock/attach/initialize.js": {
-            "name": "src/__model-dock/attach/initialize.js",
+        "src/__model-dock/methods.js": {
+            "name": "src/__model-dock/methods.js",
             "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/__model-dock/proxy.js": {
-            "name": "src/__model-dock/proxy.js",
-            "modules": {
-                "view.dock": 1
-            },
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -118,7 +116,7 @@
             "namespaces": {},
             "module": "backbone.model",
             "namespace": "",
-            "file": "src/__model-dock/attach/dom-to-model/attach.js",
+            "file": "src/__model-dock/dom-to-model/attach.js",
             "line": 1
         },
         "backbone.view.model": {
@@ -132,8 +130,7 @@
             "name": "archetypo",
             "submodules": {
                 "$el.dock.attach": 1,
-                "view.dock.attach": 1,
-                "view.dock": 1
+                "view.dock.attach": 1
             },
             "classes": {},
             "fors": {},
@@ -148,7 +145,7 @@
             "namespaces": {},
             "module": "archetypo",
             "namespace": "",
-            "file": "src/__model-dock/attach/model-to-dom/attach.js",
+            "file": "src/__model-dock/model-to-dom/attach.js",
             "line": 1
         },
         "view.dock.attach": {
@@ -160,21 +157,8 @@
             "namespaces": {},
             "module": "archetypo",
             "namespace": "",
-            "file": "src/__model-dock/attach/index.js",
+            "file": "src/__model-dock/initialize-attach.js",
             "line": 1
-        },
-        "view.dock": {
-            "name": "view.dock",
-            "submodules": {},
-            "classes": {},
-            "fors": {},
-            "is_submodule": 1,
-            "namespaces": {},
-            "module": "archetypo",
-            "namespace": "",
-            "file": "src/__model-dock/proxy.js",
-            "line": 1,
-            "description": "The dock is the object that links together views and models."
         },
         "model-dock": {
             "name": "model-dock",
@@ -202,8 +186,8 @@
     "classes": {},
     "classitems": [
         {
-            "file": "src/__model-dock/attach/dom-to-model/bind-input.js",
-            "line": 11,
+            "file": "src/__model-dock/dom-to-model/bind-input.js",
+            "line": 13,
             "description": "Binds the value of the element selected to the attribute.",
             "itemtype": "method",
             "name": "bindInput",
@@ -224,8 +208,8 @@
             "submodule": "html-to-model"
         },
         {
-            "file": "src/__model-dock/attach/dom-to-model/initialize.js",
-            "line": 13,
+            "file": "src/__model-dock/dom-to-model/initialize.js",
+            "line": 14,
             "description": "Initialization logic for binding html input tags values\nto the models attributes.",
             "itemtype": "method",
             "name": "initialize",
@@ -234,8 +218,8 @@
             "submodule": "html-to-model"
         },
         {
-            "file": "src/__model-dock/attach/dom-to-model/initialize.js",
-            "line": 21,
+            "file": "src/__model-dock/dom-to-model/initialize.js",
+            "line": 22,
             "description": "Hash where elements are referenced\nby their selector strings.",
             "itemtype": "property",
             "name": "$els",
@@ -245,7 +229,7 @@
             "submodule": "html-to-model"
         },
         {
-            "file": "src/__model-dock/attach/dom-to-model/read-dom-value.js",
+            "file": "src/__model-dock/dom-to-model/read-dom-value.js",
             "line": 11,
             "description": "Hash of functions that will return a value\ngiven an jquery $el.\nKeyed by tagName",
             "itemtype": "property",
@@ -258,7 +242,7 @@
             "submodule": "html-to-model"
         },
         {
-            "file": "src/__model-dock/attach/dom-to-model/read-dom-value.js",
+            "file": "src/__model-dock/dom-to-model/read-dom-value.js",
             "line": 41,
             "description": "Takes a selector string and returns the value of it.",
             "itemtype": "method",
@@ -275,7 +259,7 @@
             "submodule": "html-to-model"
         },
         {
-            "file": "src/__model-dock/attach/dom-to-model/update.js",
+            "file": "src/__model-dock/dom-to-model/update.js",
             "line": 13,
             "description": "Method used to hanlde changes on input elements within\nthe.\n\nVery close-bound to the way bindInput works.",
             "itemtype": "method",
@@ -293,7 +277,28 @@
             "submodule": "html-to-model"
         },
         {
-            "file": "src/__model-dock/attach/model-to-dom/attach.js",
+            "file": "src/__model-dock/events/proxy.js",
+            "line": 12,
+            "description": "Initialization for attachment and detachment logic.",
+            "itemtype": "method",
+            "name": "initialize",
+            "params": [
+                {
+                    "name": "view",
+                    "description": "",
+                    "type": "backbone.view Object"
+                },
+                {
+                    "name": "map",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "",
+            "module": "backbone.model"
+        },
+        {
+            "file": "src/__model-dock/model-to-dom/attach.js",
             "line": 18,
             "description": "Defines attachment logic for binding the model's data to the DOM.",
             "itemtype": "method",
@@ -310,7 +315,7 @@
             "submodule": "$el.dock.attach"
         },
         {
-            "file": "src/__model-dock/attach/model-to-dom/initialize.js",
+            "file": "src/__model-dock/model-to-dom/initialize.js",
             "line": 15,
             "itemtype": "method",
             "name": "initialize",
@@ -331,7 +336,7 @@
             "submodule": "$el.dock.attach"
         },
         {
-            "file": "src/__model-dock/attach/model-to-dom/initialize.js",
+            "file": "src/__model-dock/model-to-dom/initialize.js",
             "line": 23,
             "description": "The function that will fill in html for us.\nUses jquery.filler to build a cache of the\njquery DOM selections.",
             "itemtype": "method",
@@ -348,7 +353,7 @@
             "submodule": "$el.dock.attach"
         },
         {
-            "file": "src/__model-dock/attach/model-to-dom/update.js",
+            "file": "src/__model-dock/model-to-dom/update.js",
             "line": 15,
             "description": "Method used internally to update the html.",
             "itemtype": "method",
@@ -365,54 +370,7 @@
             "submodule": "$el.dock.attach"
         },
         {
-            "file": "src/__model-dock/attach/index.js",
-            "line": 16,
-            "description": "Whether to cache or not the selections.",
-            "itemtype": "property",
-            "name": "cache$Els",
-            "type": "boolean",
-            "class": "",
-            "module": "archetypo",
-            "submodule": "view.dock.attach"
-        },
-        {
-            "file": "src/__model-dock/attach/index.js",
-            "line": 26,
-            "description": "Hash for the parsers. Every parser function is called\nwithin the's context and takes the value read\nfrom the DOM as arugment.",
-            "itemtype": "property",
-            "name": "parsers",
-            "type": "Object",
-            "class": "",
-            "module": "archetypo",
-            "submodule": "view.dock.attach"
-        },
-        {
-            "file": "src/__model-dock/attach/index.js",
-            "line": 40,
-            "itemtype": "method",
-            "name": "attach",
-            "params": [
-                {
-                    "name": "model",
-                    "description": "",
-                    "type": "backbone.model Object"
-                }
-            ],
-            "class": "",
-            "module": "archetypo",
-            "submodule": "view.dock.attach"
-        },
-        {
-            "file": "src/__model-dock/attach/index.js",
-            "line": 61,
-            "itemtype": "method",
-            "name": "detach",
-            "class": "",
-            "module": "archetypo",
-            "submodule": "view.dock.attach"
-        },
-        {
-            "file": "src/__model-dock/attach/initialize.js",
+            "file": "src/__model-dock/initialize-attach.js",
             "line": 19,
             "description": "Initialization for attachment and detachment logic.",
             "itemtype": "method",
@@ -429,6 +387,53 @@
                     "type": "Object"
                 }
             ],
+            "class": "",
+            "module": "archetypo",
+            "submodule": "view.dock.attach"
+        },
+        {
+            "file": "src/__model-dock/methods.js",
+            "line": 17,
+            "description": "Whether to cache or not the selections.",
+            "itemtype": "property",
+            "name": "cache$Els",
+            "type": "boolean",
+            "class": "",
+            "module": "archetypo",
+            "submodule": "view.dock.attach"
+        },
+        {
+            "file": "src/__model-dock/methods.js",
+            "line": 27,
+            "description": "Hash for the parsers. Every parser function is called\nwithin the's context and takes the value read\nfrom the DOM as arugment.",
+            "itemtype": "property",
+            "name": "parsers",
+            "type": "Object",
+            "class": "",
+            "module": "archetypo",
+            "submodule": "view.dock.attach"
+        },
+        {
+            "file": "src/__model-dock/methods.js",
+            "line": 37,
+            "itemtype": "method",
+            "name": "attach",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "backbone.model Object"
+                }
+            ],
+            "class": "",
+            "module": "archetypo",
+            "submodule": "view.dock.attach"
+        },
+        {
+            "file": "src/__model-dock/methods.js",
+            "line": 61,
+            "itemtype": "method",
+            "name": "detach",
             "class": "",
             "module": "archetypo",
             "submodule": "view.dock.attach"
@@ -508,11 +513,11 @@
     "warnings": [
         {
             "message": "unknown tag: _private_",
-            "line": " src/__model-dock/attach/dom-to-model/update.js:13"
+            "line": " src/__model-dock/dom-to-model/update.js:13"
         },
         {
             "message": "unknown tag: _private_",
-            "line": " src/__model-dock/attach/model-to-dom/update.js:15"
+            "line": " src/__model-dock/model-to-dom/update.js:15"
         }
     ]
 }

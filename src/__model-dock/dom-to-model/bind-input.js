@@ -8,6 +8,8 @@ define(function (require, exports, module) {
 	var _ = require('lodash'),
 		$ = require('jquery');
 
+	var bindInput = require('./bind-input');
+
 	/**
 	 * Binds the value of the element selected to the attribute.
 	 *
@@ -21,7 +23,7 @@ define(function (require, exports, module) {
 
 			_.each(selector, _.bind(function (sel) {
 
-				this.bindInput(sel, attribute);
+				bindInput.call(this, sel, attribute);
 
 			}, this));
 

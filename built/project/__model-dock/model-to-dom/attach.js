@@ -1,0 +1,1 @@
+define(["require","exports","module","lodash","./update"],function(e,t,n){var r=e("lodash"),i=e("./update"),s=n.exports=function(){this.listenTo(this.model,"change",i),i.call(this,this.model)}});

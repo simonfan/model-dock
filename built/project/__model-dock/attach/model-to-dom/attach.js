@@ -1,1 +1,0 @@
-define(["require","exports","module","lodash","./update"],function(e,t,n){var r=e("lodash"),i=e("./update"),s=n.exports=function(){var t=r.bind(i,this);this.model.on("change",t),t(this.model)}});

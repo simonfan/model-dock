@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/__model-dock/attach/index.js - dock</title>
+    <title>src/__model-dock/initialize-attach.js - dock</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -59,8 +59,6 @@
             
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
             
-                <li><a href="../modules/view.dock.html">view.dock</a></li>
-            
                 <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
@@ -98,7 +96,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/__model-dock/attach/index.js</h1>
+                        <h1 class="file-heading">File: src/__model-dock/initialize-attach.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -112,70 +110,32 @@ if (typeof define !== &#x27;function&#x27;) { var define = require(&#x27;amdefin
 /* jshint ignore:end */
 
 define(function (require, exports, module) {
+	&#x27;use strict&#x27;;
 
 	var _ = require(&#x27;lodash&#x27;),
-		attachModelDom = require(&#x27;./model-to-dom/attach&#x27;),
-		attachDomModel = require(&#x27;./dom-to-model/attach&#x27;);
+		backbone = require(&#x27;lowercase-backbone&#x27;);
+
+	var initModelDom = require(&#x27;./model-to-dom/initialize&#x27;),
+		initDomModel = require(&#x27;./dom-to-model/initialize&#x27;);
 
 	/**
-	 * Whether to cache or not the selections.
+	 * Initialization for attachment and detachment logic.
 	 *
-	 * @property cache$Els
-	 * @type boolean
+	 * @method initialize
+	 * @param view {backbone.view Object}
+	 * @param map {Object}
 	 */
-	exports.cache$Els = true;
+	module.exports = function initializeAttach() {
 
-	exports.stringifiers = {};
+		// initialize model-to-dom attach logic.
+		initModelDom.call(this);
+		initDomModel.call(this);
 
-	/**
-	 * Hash for the parsers. Every parser function is called
-	 * within the&#x27;s context and takes the value read
-	 * from the DOM as arugment.
-	 *
-	 * @property parsers
-	 * @type Object
-	 */
-	exports.parsers = {};
+		// if a model was defined, use it.
+		// otherwise, create a new model
+		var model = this.model || backbone.model();
 
-
-	exports.bindInput = require(&#x27;./dom-to-model/bind-input&#x27;);
-
-
-	/**
-	 *
-	 *
-	 * @method attach
-	 * @param model {backbone.model Object}
-	 */
-	exports.attach = function attach(model) {
-
-		this.detach();
-
-		// set model
-		this.model = model;
-
-		// attach model to dom
-		attachModelDom.call(this);
-
-		// attach dom to model
-		attachDomModel.call(this);
-	};
-
-
-	/**
-	 *
-	 *
-	 * @method detach
-	 */
-	exports.detach = function detach() {
-
-		if (this.model) {
-			// stop listening to old model.
-			this.model.off(&#x27;change&#x27;, this._updateView);
-
-			// set this model to another value
-			this.model = void(0);
-		}
+		this.attach(model);
 	};
 });
 
