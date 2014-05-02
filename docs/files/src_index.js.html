@@ -47,19 +47,7 @@
             
                 <li><a href="../modules/$el.dock.html">$el.dock</a></li>
             
-                <li><a href="../modules/$el.dock.attach.html">$el.dock.attach</a></li>
-            
-                <li><a href="../modules/archetypo.html">archetypo</a></li>
-            
-                <li><a href="../modules/backbone.model.html">backbone.model</a></li>
-            
-                <li><a href="../modules/backbone.view.model.html">backbone.view.model</a></li>
-            
-                <li><a href="../modules/html-to-model.html">html-to-model</a></li>
-            
                 <li><a href="../modules/model-dock.html">model-dock</a></li>
-            
-                <li><a href="../modules/view.dock.attach.html">view.dock.attach</a></li>
             
             </ul>
         </div>
@@ -119,68 +107,152 @@ define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
 	var _ = require(&#x27;lodash&#x27;),
-		backbone = require(&#x27;lowercase-backbone&#x27;);
+		subject = require(&#x27;subject&#x27;),
+		Backbone = require(&#x27;backbone&#x27;);
 
-	// initializers
-	var initAttach = require(&#x27;./__model-dock/initialize-attach&#x27;);
+
+
+
 
 	/**
 	 * The constructor for the dock object.
 	 *
 	 * @method dock
 	 * @constructor
-	 * @param extensions {Object}
-	 *     @param $el {Object}
-	 *         The $el that owns the dock object
-	 *     @param map {Object}
-	 *         Map that links selectors to attributes
+	 * @param options
 	 *     @param [model] {Object}
 	 *         Optionally provide a model that will initially fill the $el.
 	 */
-	var dock = module.exports = backbone.view.extend({
-
-		initialize: function initialize() {
-			// initialize basic backbone view
-			backbone.view.prototype.initialize.apply(this, arguments);
-
-			this.initializeModelDock.apply(this, arguments);
+	var dock = module.exports = subject({
+		initialize: function initialize(options) {
+			this.initializeModelDock(options);
 		},
 
-		/**
-		 * Holds initialization logic for modeldock.
-		 *
-		 * @method initializeModelDock
-		 * @param options {Object}
-		 */
 		initializeModelDock: function initializeModelDock(options) {
 
-			this.map = options.map || this.map;
-			this.model = options.model || this.model;
-			this.parsers = options.parsers || this.parsers;
-			this.sringifiers = options.stringifiers || this.stringifiers;
-			this.cache$Els = options.cache$Els || this.cache$Els;
-
-			// initialize attach
-			initAttach.apply(this, arguments);
+			if (options &amp;&amp; options.model) {
+				this.attach(options.model);
+			}
 		},
 
 		/**
-		 * The model this dock object should listen to.
 		 *
-		 * @property model
+		 *
+		 *
+		 * @method invokeModelMethod
+		 * @param method
+		 * @params [arguments]
 		 */
-		model: void(0),
+		invokeModelMethod: function invokeModelMethod(method) {
+			if (this.model) {
+
+				var args = Array.prototype.slice.call(arguments, 1);
+
+				return this.model[method].apply(this.model, args);
+
+			} else {
+				throw new Error(&#x27;No model attached to dock. Unable to invoke &#x27; + method);
+			}
+		},
+
+
+		retrieveModelProperty: function retrieveModelProperty(property) {
+			if (this.model) {
+
+				return this.model[property];
+
+			} else {
+				throw new Error(&#x27;No model attached to dock. Unable to retrieve &#x27; + property);
+			}
+		},
+
 
 		/**
-		 * Map that identifies selectors for attribvutes.
 		 *
-		 * @property map
+		 *
+		 *
 		 */
-		map: {},
+		attach: function attach(model, options) {
+
+			this.detach();
+
+			this.model = model;
+
+			this.listenTo(this.model, &#x27;all&#x27;, this.trigger);
+
+			// trigger attach event.
+			if (!options || !options.silent) {
+				this.trigger(&#x27;attach&#x27;, model);
+			}
+
+			return this;
+		},
+
+		/**
+		 *
+		 *
+		 * @method detach
+		 */
+		detach: function detach(options) {
+			if (this.model) {
+
+				var model = this.model;
+
+				// Stop listening to all events from the model.
+				this.stopListening(model);
+
+				// unset this.model
+				this.model = void(0);
+
+				// trigger detach event
+				if (!options || !options.silent) {
+					this.trigger(&#x27;detach&#x27;, model);
+				}
+			}
+
+			return this;
+		},
 	});
 
-	// methods related to attaching and detaching models from the dock
-	dock.proto(require(&#x27;./__model-dock/methods&#x27;));
+	// events methods.
+	dock.proto(Backbone.Events);
+
+	// proxy methods
+	var bbMethodNames = [
+
+			&#x27;get&#x27;, &#x27;set&#x27;, &#x27;escape&#x27;, &#x27;has&#x27;, &#x27;unset&#x27;, &#x27;clear&#x27;,
+			&#x27;toJSON&#x27;,
+			&#x27;sync&#x27;, &#x27;fetch&#x27;, &#x27;save&#x27;, &#x27;destroy&#x27;,
+			&#x27;keys&#x27;, &#x27;values&#x27;, &#x27;pairs&#x27;, &#x27;invert&#x27;, &#x27;pick&#x27;, &#x27;omit&#x27;,
+			&#x27;validate&#x27;, &#x27;isValid&#x27;,
+			&#x27;url&#x27;,
+			&#x27;parse&#x27;,
+			&#x27;clone&#x27;, &#x27;isNew&#x27;,
+			&#x27;hasChanged&#x27;, &#x27;changedAttributes&#x27;,
+			&#x27;previous&#x27;, &#x27;previousAttributes&#x27;
+		],
+		bbMethods = {};
+
+	_.each(bbMethodNames, function (m) {
+		bbMethods[m] = _.partial(dock.prototype.invokeModelMethod, m);
+	});
+
+	dock.proto(bbMethods);
+
+	// proxy properties
+	var bbPropertyNames = [
+			&#x27;id&#x27;, &#x27;idAttribute&#x27;, &#x27;cid&#x27;, &#x27;attributes&#x27;,
+			&#x27;changed&#x27;, &#x27;defaults&#x27;,
+			&#x27;validationError&#x27;,
+			&#x27;urlRoot&#x27;,
+		],
+		bbPropertyRetrievalMethods = {};
+
+	_.each(bbPropertyNames, function (n) {
+		bbPropertyRetrievalMethods[n] = _.partial(dock.prototype.retrieveModelProperty, n);
+	});
+
+	dock.proto(bbPropertyRetrievalMethods);
 });
 
     </pre>

@@ -3,13 +3,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [],
     "modules": [
         "$el.dock",
-        "$el.dock.attach",
-        "archetypo",
-        "backbone.model",
-        "backbone.view.model",
-        "html-to-model",
-        "model-dock",
-        "view.dock.attach"
+        "model-dock"
     ],
     "allModules": [
         {
@@ -18,32 +12,8 @@ YUI.add("yuidoc-meta", function(Y) {
             "description": "The dock is the object that links together $els and models."
         },
         {
-            "displayName": "$el.dock.attach",
-            "name": "$el.dock.attach"
-        },
-        {
-            "displayName": "archetypo",
-            "name": "archetypo"
-        },
-        {
-            "displayName": "backbone.model",
-            "name": "backbone.model"
-        },
-        {
-            "displayName": "backbone.view.model",
-            "name": "backbone.view.model"
-        },
-        {
-            "displayName": "html-to-model",
-            "name": "html-to-model"
-        },
-        {
             "displayName": "model-dock",
             "name": "model-dock"
-        },
-        {
-            "displayName": "view.dock.attach",
-            "name": "view.dock.attach"
         }
     ]
 } };

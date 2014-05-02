@@ -94,6 +94,8 @@ define(function (require, exports, module) {
 			if (!options || !options.silent) {
 				this.trigger('attach', model);
 			}
+
+			return this;
 		},
 
 		/**
@@ -117,6 +119,8 @@ define(function (require, exports, module) {
 					this.trigger('detach', model);
 				}
 			}
+
+			return this;
 		},
 	});
 

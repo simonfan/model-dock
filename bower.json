@@ -1,7 +1,7 @@
 {
   "name": "model-dock",
   "main": "built/model-dock.js",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Stub for backbone model",
   "dependencies": {
     "subject": "~0.4.1",
