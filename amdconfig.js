@@ -8,7 +8,7 @@ require.config({
 		should: '../node_modules/should/should',
 		'model-dock': 'index',
 		'jquery.filler': '../bower_components/jquery.filler/built/jquery.filler',
-		jquery: '../bower_components/jquery/jquery',
+		jquery: '../bower_components/jquery/dist/jquery',
 		qunit: '../bower_components/qunit/qunit/qunit',
 		lodash: '../bower_components/lodash/dist/lodash.compat',
 		'requirejs-text': '../bower_components/requirejs-text/text',

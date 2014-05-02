@@ -1,34 +1,9 @@
-define(['model-dock', 'should', 'backbone', 'text!/test/templates/fruit.html'],
-function(modelDock  , should, Backbone, fruitTemplate) {
+define(['model-dock', 'should', 'backbone'],
+function(modelDock  , should, Backbone) {
 
 	'use strict';
 
 	describe('proxy', function () {
-
-		beforeEach(function () {
-
-			// jquery elements
-			var $fixture =
-				$('<div id="fixture"></div>')
-					.appendTo($('html'))
-					.append(fruitTemplate);
-
-			this.$fixture = $fixture;
-			this.$fruit = $fixture.find('#fruit');
-
-			// Backbone cosntructors
-			this.fruitDock = modelDock.extend({
-				map: {
-					'name': ['input[name="name"]', '.name', '.name -> attr:href'],
-					'colors': 'input[name="colors"]'
-				}
-			});
-
-		});
-
-		afterEach(function () {
-			this.$fixture.remove();
-		});
 
 		it('proxies events from the model', function () {
 
@@ -41,8 +16,7 @@ function(modelDock  , should, Backbone, fruitTemplate) {
 					colors: ['yellow', 'green']
 				});
 
-			var fdock = this.fruitDock({
-				el: this.$fruit,
+			var fdock = modelDock({
 				model: melancia
 			});
 

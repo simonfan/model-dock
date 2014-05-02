@@ -17,66 +17,146 @@ define(function (require, exports, module) {
 	'use strict';
 
 	var _ = require('lodash'),
-		backbone = require('lowercase-backbone');
+		subject = require('subject'),
+		Backbone = require('backbone');
 
-	// initializers
-	var initAttach = require('./__model-dock/initialize-attach');
+
+
+
 
 	/**
 	 * The constructor for the dock object.
 	 *
 	 * @method dock
 	 * @constructor
-	 * @param extensions {Object}
-	 *     @param $el {Object}
-	 *         The $el that owns the dock object
-	 *     @param map {Object}
-	 *         Map that links selectors to attributes
+	 * @param options
 	 *     @param [model] {Object}
 	 *         Optionally provide a model that will initially fill the $el.
 	 */
-	var dock = module.exports = backbone.view.extend({
-
-		initialize: function initialize() {
-			// initialize basic backbone view
-			backbone.view.prototype.initialize.apply(this, arguments);
-
-			this.initializeModelDock.apply(this, arguments);
+	var dock = module.exports = subject({
+		initialize: function initialize(options) {
+			this.initializeModelDock(options);
 		},
 
-		/**
-		 * Holds initialization logic for modeldock.
-		 *
-		 * @method initializeModelDock
-		 * @param options {Object}
-		 */
 		initializeModelDock: function initializeModelDock(options) {
 
-			this.map = options.map || this.map;
-			this.model = options.model || this.model;
-			this.parsers = options.parsers || this.parsers;
-			this.sringifiers = options.stringifiers || this.stringifiers;
-			this.cache$Els = options.cache$Els || this.cache$Els;
-
-			// initialize attach
-			initAttach.apply(this, arguments);
+			if (options && options.model) {
+				this.attach(options.model);
+			}
 		},
 
 		/**
-		 * The model this dock object should listen to.
 		 *
-		 * @property model
+		 *
+		 *
+		 * @method invokeModelMethod
+		 * @param method
+		 * @params [arguments]
 		 */
-		model: void(0),
+		invokeModelMethod: function invokeModelMethod(method) {
+			if (this.model) {
+
+				var args = Array.prototype.slice.call(arguments, 1);
+
+				return this.model[method].apply(this.model, args);
+
+			} else {
+				throw new Error('No model attached to dock. Unable to invoke ' + method);
+			}
+		},
+
+
+		retrieveModelProperty: function retrieveModelProperty(property) {
+			if (this.model) {
+
+				return this.model[property];
+
+			} else {
+				throw new Error('No model attached to dock. Unable to retrieve ' + property);
+			}
+		},
+
 
 		/**
-		 * Map that identifies selectors for attribvutes.
 		 *
-		 * @property map
+		 *
+		 *
 		 */
-		map: {},
+		attach: function attach(model, options) {
+
+			this.detach();
+
+			this.model = model;
+
+			this.listenTo(this.model, 'all', this.trigger);
+
+			// trigger attach event.
+			if (!options || !options.silent) {
+				this.trigger('attach', model);
+			}
+		},
+
+		/**
+		 *
+		 *
+		 * @method detach
+		 */
+		detach: function detach(options) {
+			if (this.model) {
+
+				var model = this.model;
+
+				// Stop listening to all events from the model.
+				this.stopListening(model);
+
+				// unset this.model
+				this.model = void(0);
+
+				// trigger detach event
+				if (!options || !options.silent) {
+					this.trigger('detach', model);
+				}
+			}
+		},
 	});
 
-	// methods related to attaching and detaching models from the dock
-	dock.proto(require('./__model-dock/methods'));
+	// events methods.
+	dock.proto(Backbone.Events);
+
+	// proxy methods
+	var bbMethodNames = [
+
+			'get', 'set', 'escape', 'has', 'unset', 'clear',
+			'toJSON',
+			'sync', 'fetch', 'save', 'destroy',
+			'keys', 'values', 'pairs', 'invert', 'pick', 'omit',
+			'validate', 'isValid',
+			'url',
+			'parse',
+			'clone', 'isNew',
+			'hasChanged', 'changedAttributes',
+			'previous', 'previousAttributes'
+		],
+		bbMethods = {};
+
+	_.each(bbMethodNames, function (m) {
+		bbMethods[m] = _.partial(dock.prototype.invokeModelMethod, m);
+	});
+
+	dock.proto(bbMethods);
+
+	// proxy properties
+	var bbPropertyNames = [
+			'id', 'idAttribute', 'cid', 'attributes',
+			'changed', 'defaults',
+			'validationError',
+			'urlRoot',
+		],
+		bbPropertyRetrievalMethods = {};
+
+	_.each(bbPropertyNames, function (n) {
+		bbPropertyRetrievalMethods[n] = _.partial(dock.prototype.retrieveModelProperty, n);
+	});
+
+	dock.proto(bbPropertyRetrievalMethods);
 });

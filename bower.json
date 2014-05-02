@@ -2,20 +2,18 @@
   "name": "model-dock",
   "main": "built/model-dock.js",
   "version": "0.4.6",
-  "description": "Backbone.View that does dual-way data binding.",
+  "description": "Stub for backbone model",
   "dependencies": {
-	"jquery.filler": "0.2.3",
-	"lowercase-backbone": "*"
+    "subject": "~0.4.1",
+    "lodash": "~2.4.1",
+    "backbone": "~1.1.2"
   },
   "devDependencies": {
-	"requirejs": "*",
-	"requirejs-text": "*",
-	"underscore": "*",
-	"jquery": "*",
-	"qunit": "*",
-	"backbone": "~1.1.1"
-  },
-  "resolutions": {
-	"jquery.filler": "0.2.3"
+    "requirejs": "*",
+    "requirejs-text": "*",
+    "underscore": "*",
+    "jquery": "~2.1.1",
+    "qunit": "*",
+    "backbone": "~1.1.1"
   }
 }

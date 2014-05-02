@@ -2,7 +2,7 @@ define(['mocha'], function (mocha) {
 	// use mocha with bdd
 	mocha.setup('bdd');
 
-	require(['../test/html-to-model', '../test/model-to-html', '../test/proxy'], function () {
+	require(['../test/events', '../test/methods', '../test/properties'], function () {
 
 
 		// run mocha
