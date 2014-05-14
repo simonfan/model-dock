@@ -1,1 +1,0 @@
-define(["require","exports","module","lodash","lowercase-backbone","./model-to-dom/initialize","./dom-to-model/initialize"],function(e,t,n){var r=e("lodash"),i=e("lowercase-backbone"),s=e("./model-to-dom/initialize"),o=e("./dom-to-model/initialize");n.exports=function(){s.call(this),o.call(this);var t=this.model||i.model();this.attach(t)}});

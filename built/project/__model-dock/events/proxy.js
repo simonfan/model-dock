@@ -1,1 +1,0 @@
-define(["require","exports","module","lodash"],function(e,t,n){function i(){this.trigger.apply(this,arguments)}var r=e("lodash");n.exports=function(){this.listenTo(this.model,"all",i)}});

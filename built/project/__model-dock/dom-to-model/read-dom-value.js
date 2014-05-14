@@ -1,1 +1,0 @@
-define(["require","exports","module","lodash","jquery"],function(e,t,n){var r=e("lodash"),i=e("jquery"),s={"default":function(t){return t.val()},DIV:function(t){return t.html()},INPUT:function(t){return t.prop("type")==="checkbox"?r.map(t.filter(":checked"),function(e){return i(e).val()}):t.val()}};n.exports=function(t){var n=t.prop("tagName"),r=s[n]||s["default"];return r(t)}});
