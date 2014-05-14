@@ -16,151 +16,63 @@ if (typeof define !== 'function') { var define = require('amdefine')(module) }
 define(function (require, exports, module) {
 	'use strict';
 
-	var _ = require('lodash'),
-		subject = require('subject'),
+	var dock     = require('dock'),
 		Backbone = require('backbone');
 
 
 
+	var modelDock = module.exports = dock.extend({
+		attachmentAttribute: 'model',
 
+		afterAttach: function afterAttach(model, options) {
 
-	/**
-	 * The constructor for the dock object.
-	 *
-	 * @method dock
-	 * @constructor
-	 * @param options
-	 *     @param [model] {Object}
-	 *         Optionally provide a model that will initially fill the $el.
-	 */
-	var dock = module.exports = subject({
-		initialize: function initialize(options) {
-			this.initializeModelDock(options);
-		},
-
-		initializeModelDock: function initializeModelDock(options) {
-
-			if (options && options.model) {
-				this.attach(options.model);
-			}
-		},
-
-		/**
-		 *
-		 *
-		 *
-		 * @method invokeModelMethod
-		 * @param method
-		 * @params [arguments]
-		 */
-		invokeModelMethod: function invokeModelMethod(method) {
-			if (this.model) {
-
-				var args = Array.prototype.slice.call(arguments, 1);
-
-				return this.model[method].apply(this.model, args);
-
-			} else {
-				throw new Error('No model attached to dock. Unable to invoke ' + method);
-			}
-		},
-
-
-		retrieveModelProperty: function retrieveModelProperty(property) {
-			if (this.model) {
-
-				return this.model[property];
-
-			} else {
-				throw new Error('No model attached to dock. Unable to retrieve ' + property);
-			}
-		},
-
-
-		/**
-		 *
-		 *
-		 *
-		 */
-		attach: function attach(model, options) {
-
-			this.detach();
-
-			this.model = model;
-
-			this.listenTo(this.model, 'all', this.trigger);
+			// trigger events on all events of the model.
+			this.listenTo(model, 'all', this.trigger);
 
 			// trigger attach event.
 			if (!options || !options.silent) {
-				this.trigger('attach', model);
+				this.trigger('attach', model, options);
 			}
 
-			return this;
 		},
 
-		/**
-		 *
-		 *
-		 * @method detach
-		 */
-		detach: function detach(options) {
-			if (this.model) {
+		afterDetach: function afterDetach(model, options) {
+			// remove event listeners
+			this.stopListening(model, 'all');
 
-				var model = this.model;
 
-				// Stop listening to all events from the model.
-				this.stopListening(model);
-
-				// unset this.model
-				this.model = void(0);
-
-				// trigger detach event
-				if (!options || !options.silent) {
-					this.trigger('detach', model);
-				}
+			// trigger detach event.
+			if (!options || !options.silent) {
+				this.trigger('detach', model, options);
 			}
 
-			return this;
 		},
 	});
 
-	// events methods.
-	dock.proto(Backbone.Events);
+	// events
+	modelDock.assignProto(Backbone.Events);
+
+	// proxies
 
 	// proxy methods
-	var bbMethodNames = [
-
-			'get', 'set', 'escape', 'has', 'unset', 'clear',
-			'toJSON',
-			'sync', 'fetch', 'save', 'destroy',
-			'keys', 'values', 'pairs', 'invert', 'pick', 'omit',
-			'validate', 'isValid',
-			'url',
-			'parse',
-			'clone', 'isNew',
-			'hasChanged', 'changedAttributes',
-			'previous', 'previousAttributes'
-		],
-		bbMethods = {};
-
-	_.each(bbMethodNames, function (m) {
-		bbMethods[m] = _.partial(dock.prototype.invokeModelMethod, m);
-	});
-
-	dock.proto(bbMethods);
+	modelDock.defineProxies([
+		'get', 'set', 'escape', 'has', 'unset', 'clear',
+		'toJSON',
+		'sync', 'fetch', 'save', 'destroy',
+		'keys', 'values', 'pairs', 'invert', 'pick', 'omit',
+		'validate', 'isValid',
+		'url',
+		'parse',
+		'clone', 'isNew',
+		'hasChanged', 'changedAttributes',
+		'previous', 'previousAttributes'
+	]);
 
 	// proxy properties
-	var bbPropertyNames = [
-			'id', 'idAttribute', 'cid', 'attributes',
-			'changed', 'defaults',
-			'validationError',
-			'urlRoot',
-		],
-		bbPropertyRetrievalMethods = {};
-
-	_.each(bbPropertyNames, function (n) {
-		bbPropertyRetrievalMethods[n] = _.partial(dock.prototype.retrieveModelProperty, n);
-	});
-
-	dock.proto(bbPropertyRetrievalMethods);
+	modelDock.defineProxies([
+		'id', 'idAttribute', 'cid', 'attributes',
+		'changed', 'defaults',
+		'validationError',
+		'urlRoot',
+	]);
 });

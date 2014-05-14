@@ -1,9 +1,25 @@
-define(['model-dock', 'should', 'backbone'],
-function(modelDock  , should, Backbone) {
+(function(name, factory) {
 
+	var mod = typeof define !== 'function' ?
+		// node
+		'.././src' :
+		// browser
+		'model-dock',
+		// dependencies for the test
+		deps = [mod, 'should', 'backbone'];
+
+	if (typeof define !== 'function') {
+		// node
+		factory.apply(null, deps.map(require));
+	} else {
+		// browser
+		define(deps, factory);
+	}
+
+})('test', function(modelDock, should, Backbone) {
 	'use strict';
 
-	describe('method invocation', function () {
+	describe('modelDock method-proxies', function () {
 
 		it('backbone model object methods should be invocable through dock methods', function () {
 

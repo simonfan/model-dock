@@ -106,153 +106,66 @@ if (typeof define !== &#x27;function&#x27;) { var define = require(&#x27;amdefin
 define(function (require, exports, module) {
 	&#x27;use strict&#x27;;
 
-	var _ = require(&#x27;lodash&#x27;),
-		subject = require(&#x27;subject&#x27;),
+	var _        = require(&#x27;lodash&#x27;),
+		dock     = require(&#x27;dock&#x27;),
 		Backbone = require(&#x27;backbone&#x27;);
 
 
 
+	var modelDock = module.exports = dock.extend({
+		attachmentAttribute: &#x27;model&#x27;,
 
+		afterAttach: function afterAttach(model, options) {
 
-	/**
-	 * The constructor for the dock object.
-	 *
-	 * @method dock
-	 * @constructor
-	 * @param options
-	 *     @param [model] {Object}
-	 *         Optionally provide a model that will initially fill the $el.
-	 */
-	var dock = module.exports = subject({
-		initialize: function initialize(options) {
-			this.initializeModelDock(options);
-		},
-
-		initializeModelDock: function initializeModelDock(options) {
-
-			if (options &amp;&amp; options.model) {
-				this.attach(options.model);
-			}
-		},
-
-		/**
-		 *
-		 *
-		 *
-		 * @method invokeModelMethod
-		 * @param method
-		 * @params [arguments]
-		 */
-		invokeModelMethod: function invokeModelMethod(method) {
-			if (this.model) {
-
-				var args = Array.prototype.slice.call(arguments, 1);
-
-				return this.model[method].apply(this.model, args);
-
-			} else {
-				throw new Error(&#x27;No model attached to dock. Unable to invoke &#x27; + method);
-			}
-		},
-
-
-		retrieveModelProperty: function retrieveModelProperty(property) {
-			if (this.model) {
-
-				return this.model[property];
-
-			} else {
-				throw new Error(&#x27;No model attached to dock. Unable to retrieve &#x27; + property);
-			}
-		},
-
-
-		/**
-		 *
-		 *
-		 *
-		 */
-		attach: function attach(model, options) {
-
-			this.detach();
-
-			this.model = model;
-
-			this.listenTo(this.model, &#x27;all&#x27;, this.trigger);
+			// trigger events on all events of the model.
+			this.listenTo(model, &#x27;all&#x27;, this.trigger);
 
 			// trigger attach event.
 			if (!options || !options.silent) {
-				this.trigger(&#x27;attach&#x27;, model);
+				this.trigger(&#x27;attach&#x27;, model, options);
 			}
 
-			return this;
 		},
 
-		/**
-		 *
-		 *
-		 * @method detach
-		 */
-		detach: function detach(options) {
-			if (this.model) {
+		afterDetach: function afterDetach(model, options) {
+			// remove event listeners
+			this.stopListening(model, &#x27;all&#x27;);
 
-				var model = this.model;
 
-				// Stop listening to all events from the model.
-				this.stopListening(model);
-
-				// unset this.model
-				this.model = void(0);
-
-				// trigger detach event
-				if (!options || !options.silent) {
-					this.trigger(&#x27;detach&#x27;, model);
-				}
+			// trigger detach event.
+			if (!options || !options.silent) {
+				this.trigger(&#x27;detach&#x27;, model, options);
 			}
 
-			return this;
 		},
 	});
 
-	// events methods.
-	dock.proto(Backbone.Events);
+	// events
+	modelDock.assignProto(Backbone.Events);
+
+	// proxies
 
 	// proxy methods
-	var bbMethodNames = [
-
-			&#x27;get&#x27;, &#x27;set&#x27;, &#x27;escape&#x27;, &#x27;has&#x27;, &#x27;unset&#x27;, &#x27;clear&#x27;,
-			&#x27;toJSON&#x27;,
-			&#x27;sync&#x27;, &#x27;fetch&#x27;, &#x27;save&#x27;, &#x27;destroy&#x27;,
-			&#x27;keys&#x27;, &#x27;values&#x27;, &#x27;pairs&#x27;, &#x27;invert&#x27;, &#x27;pick&#x27;, &#x27;omit&#x27;,
-			&#x27;validate&#x27;, &#x27;isValid&#x27;,
-			&#x27;url&#x27;,
-			&#x27;parse&#x27;,
-			&#x27;clone&#x27;, &#x27;isNew&#x27;,
-			&#x27;hasChanged&#x27;, &#x27;changedAttributes&#x27;,
-			&#x27;previous&#x27;, &#x27;previousAttributes&#x27;
-		],
-		bbMethods = {};
-
-	_.each(bbMethodNames, function (m) {
-		bbMethods[m] = _.partial(dock.prototype.invokeModelMethod, m);
-	});
-
-	dock.proto(bbMethods);
+	modelDock.defineProxies([
+		&#x27;get&#x27;, &#x27;set&#x27;, &#x27;escape&#x27;, &#x27;has&#x27;, &#x27;unset&#x27;, &#x27;clear&#x27;,
+		&#x27;toJSON&#x27;,
+		&#x27;sync&#x27;, &#x27;fetch&#x27;, &#x27;save&#x27;, &#x27;destroy&#x27;,
+		&#x27;keys&#x27;, &#x27;values&#x27;, &#x27;pairs&#x27;, &#x27;invert&#x27;, &#x27;pick&#x27;, &#x27;omit&#x27;,
+		&#x27;validate&#x27;, &#x27;isValid&#x27;,
+		&#x27;url&#x27;,
+		&#x27;parse&#x27;,
+		&#x27;clone&#x27;, &#x27;isNew&#x27;,
+		&#x27;hasChanged&#x27;, &#x27;changedAttributes&#x27;,
+		&#x27;previous&#x27;, &#x27;previousAttributes&#x27;
+	]);
 
 	// proxy properties
-	var bbPropertyNames = [
-			&#x27;id&#x27;, &#x27;idAttribute&#x27;, &#x27;cid&#x27;, &#x27;attributes&#x27;,
-			&#x27;changed&#x27;, &#x27;defaults&#x27;,
-			&#x27;validationError&#x27;,
-			&#x27;urlRoot&#x27;,
-		],
-		bbPropertyRetrievalMethods = {};
-
-	_.each(bbPropertyNames, function (n) {
-		bbPropertyRetrievalMethods[n] = _.partial(dock.prototype.retrieveModelProperty, n);
-	});
-
-	dock.proto(bbPropertyRetrievalMethods);
+	modelDock.defineProxies([
+		&#x27;id&#x27;, &#x27;idAttribute&#x27;, &#x27;cid&#x27;, &#x27;attributes&#x27;,
+		&#x27;changed&#x27;, &#x27;defaults&#x27;,
+		&#x27;validationError&#x27;,
+		&#x27;urlRoot&#x27;,
+	]);
 });
 
     </pre>

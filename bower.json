@@ -1,12 +1,11 @@
 {
   "name": "model-dock",
   "main": "built/model-dock.js",
-  "version": "0.5.7",
+  "version": "0.6.7",
   "description": "Stub for backbone model",
   "dependencies": {
-    "subject": "~0.4.1",
-    "lodash": "~2.4.1",
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+    "dock": "0.1.4"
   },
   "devDependencies": {
     "requirejs": "*",
@@ -15,5 +14,8 @@
     "jquery": "~2.1.1",
     "qunit": "*",
     "backbone": "~1.1.1"
+  },
+  "resolutions": {
+    "dock": "0.1.4"
   }
 }

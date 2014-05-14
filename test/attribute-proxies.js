@@ -19,7 +19,7 @@
 })('test', function(ModelDock, should) {
 	'use strict';
 
-	describe('ModelDock collection', function () {
+	describe('ModelDock attribute-proxies', function () {
 		beforeEach(function (done) {
 			done();
 		});
