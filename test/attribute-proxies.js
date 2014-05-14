@@ -6,7 +6,7 @@
 		// browser
 		'model-dock',
 		// dependencies for the test
-		deps = [mod, 'should'];
+		deps = [mod, 'should', 'backbone'];
 
 	if (typeof define !== 'function') {
 		// node
@@ -16,17 +16,27 @@
 		define(deps, factory);
 	}
 
-})('test', function(ModelDock, should) {
+})('test', function(modelDock, should, Backbone) {
 	'use strict';
 
-	describe('ModelDock attribute-proxies', function () {
+	describe('modelDock attribute-proxies', function () {
 		beforeEach(function (done) {
 			done();
 		});
 
 		it('is fine (:', function () {
-			var fruit = { name: 'banana' }
-			fruit.should.have.property('name', 'banana');
+
+
+			var mdock = modelDock({ model: new Backbone.Model({
+				id: 1,
+				name: 'first-model'
+			})});
+
+
+			mdock.id.should.eql(1);
+
+			mdock.attributes.name.should.eql('first-model');
+
 		});
 	});
 });
